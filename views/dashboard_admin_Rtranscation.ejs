@@ -1,0 +1,209 @@
+<%- include('includes/boilerplate.ejs') %> <%- include('includes/sidebar.ejs', {page: "Rtranscation"}) %>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <%- include('includes/navbar.ejs') %>
+
+  <div class="container-fluid py-4">
+    <div class="row">
+
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>Find Transcation</h6>
+          </div>
+          <div class="card-body px-3 pt-0 pb-2">
+            <div id="liveAlertPlaceholder"></div>
+            <form action="#" method="post" role="form" class="needs-validation" novalidate>
+              <div class="mb-3">
+                <input type="text" name="transcationId" class="form-control" placeholder="Enter Transcation ID" id="transcationId" onkeydown="javascript:if (event.keyCode == 13) document.getElementById('findButton').focus()" required/>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please Enter Transcation ID</div>
+              </div>
+              <div class="mb-3">
+                <button type="button" class="btn btn-sm bg-gradient-dark" id="findButton">Find Transcation</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0 px-3">
+            <div class="row">
+              <div class="align-items-center d-flex col-6">
+                <h6 class="mb-0">Transcation Information</h6>
+              </div>
+              <div class="col-6 text-end">
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filter-modal">Filter Transcations</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-4 p-3">
+            <ul class="list-group">
+              <% for (let transcation of transcations) { %>
+              <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                <div class="d-flex flex-column">
+                  <h6 class="mb-3 text-sm">Transcation ID : <%= transcation.transcationId %></h6>
+                  <span class="text-xs">Username: <span class="text-dark font-weight-bold ms-sm-2 ps-4"> <%= transcation.memberUsername %> </span></span>
+                  <span class="text-xs">type: <span class="text-dark font-weight-bold ms-sm-2 ps-5"> <%= transcation.transactionType %> </span></span>
+                  <span class="text-xs">Book Name: <span class="text-dark ms-sm-2 font-weight-bold ps-3"> <%= transcation.bookName %> </span></span>
+                  <span class="text-xs">Borrowed Date: <span class="text-dark ms-sm-2 font-weight-bold"> <%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
+                  <span class="text-xs">Due Date: <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
+                  <span class="text-xs">
+                    Return Date: <% if (transcation.returnDate) { %>
+                    <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.returnDate?.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
+                    <% } else { %>
+                    <!-- Display nothing when returnDate is null or undefined -->
+                    <% } %>
+                  </span>
+                </div>
+                <div class="ms-auto text-end">
+                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="/transcation/delete/<%= transcation._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                </div>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <%- include('includes/footer_admin.ejs') %>
+  </div>
+
+  <div class="modal fade" id="editTranscationModal" tabindex="-1" role="dialog" aria-labelledby="editTranscationModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-info text-gradient">Return Transcation</h3>
+            </div>
+            <div class="card-body">
+              <form action="/transcation/close" method="post" role="form" class="needs-validation" novalidate>
+                <div class="mb-3 form-group">
+                  <label for="transcationId2">Transcation ID</label>
+                  <input type="text" name="transcationId" id="transcationId2" class="form-control" readonly />
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="memberUsername">Username</label>
+                    <input type="text" name="memberUsername" class="form-control" id="username" readonly />
+                  </div>
+                  <div class="col form-group">
+                    <label for="bookName">Book Name</label>
+                    <input type="text" name="bookName" class="form-control" id="bookName" readonly />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="transactionDate">Issued On</label>
+                    <input type="date" name="transactionDate" id="transactionDate" class="form-control" readonly>
+                  </div>
+                  <div class="col form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" name="dueDate" id="dueDate" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="returnDate">Return Date</label>
+                    <input type="date" name="returnDate" class="form-control" id="returnDate" required />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Set Return Date</div>
+                  </div>
+                  <div class="col form-group">
+                    <label for="transactionType">Transcation Status</label>
+                    <input type="text" name="transactionType" class="form-control" value="Return" id="transactionType" readonly />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Close Transcation</button>
+                  <button type="reset" class="btn btn-sm bg-gradient-danger">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-labelledby="filter-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-info text-gradient">Filter Transcations</h3>
+            </div>
+            <div class="card-body">
+              <form action="/dashboard/return-transcation" method="get" role="form" class="needs-validation" novalidate>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="memberUsername">Search By Username</label>
+                    <input type="text" name="memberUsername" class="form-control" value="<%= filters.memberUsername || '' %>" placeholder="Enter Username"/>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Filter Transcations</button>
+                  <a href="/dashboard/return-transcation" class="btn bg-gradient-danger btn-sm">Clear Filter</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('includes/fixedpulgin.ejs') %> <%- include('includes/corejsfiles.ejs') %>
+<script>
+  function validateForm(event) {
+    const form = event.target.form;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    form.classList.add("was-validated");
+  }
+</script>
+<script>
+  const findButton = document.getElementById("findButton");
+  const editModal = new bootstrap.Modal(document.getElementById("editTranscationModal"));
+
+  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+  const appendAlert = (message, type) => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = [`<div class="alert alert-${type} alert-dismissible" role="alert">`, `   <div>${message}</div>`, '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>', "</div>"].join("");
+
+    alertPlaceholder.append(wrapper);
+  };
+
+  findButton.addEventListener("click", async (event) => {
+    const id = document.getElementById("transcationId").value;
+    const response = await fetch(`/transcation/${id}/find`);
+    const transcationDetails = await response.json();
+
+    if (transcationDetails == "Invalid Transcation ID") {
+      appendAlert("Invalid Transcation ID", "danger");
+      document.getElementById("transcationId").value = "";
+    } else {
+      if (transcationDetails == "Transcation Already Closed") {
+        appendAlert("Transcation Already Closed", "danger");
+        document.getElementById("transcationId").value = "";
+      } else {
+        document.getElementById("transcationId2").value = transcationDetails[0].transcationId;
+        document.getElementById("username").value = transcationDetails[0].memberUsername;
+        document.getElementById("bookName").value = transcationDetails[0].bookName;
+        document.getElementById("transactionDate").defaultValue = transcationDetails[0].transactionDate.slice(0,10);
+        document.getElementById("dueDate").defaultValue = transcationDetails[0].dueDate.slice(0,10);
+
+        editModal.show();
+      }
+    }
+  });
+</script>

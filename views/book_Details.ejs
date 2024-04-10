@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.png" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <title>Word Keeper</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container position-sticky z-index-sticky top-0">
+      <div class="row">
+        <div class="col-12">
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+            <div class="container-fluid pe-0">
+              <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="/"> Word Keeper </a>
+              <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon mt-2">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </span>
+              </button>
+              <div class="collapse navbar-collapse" id="navigation">
+                <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/">
+                      <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                      Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-2" href="/signup">
+                      <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                      Sign Up
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-2" href="/login">
+                      <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                      Log In
+                    </a>
+                  </li>
+                </ul>
+                <li class="nav-item d-flex align-items-center">
+                  <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" target="_blank" href="/contact-us">Contact Us</a>
+                </li>
+                <ul class="navbar-nav d-lg-block d-none">
+                  <li class="nav-item">
+                    <a href="/books" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Books</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+      </div>
+    </div>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+      <div class="container-fluid py-7">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <div class="card">
+              <div class="card-header pb-0 px-3">
+                <div class="row">
+                  <div class="align-items-center d-flex col-6">
+                    <h6 class="mb-0">Book Information</h6>
+                  </div>
+                  <div class="col-6 text-end">
+                    <a class="btn btn-sm btn-block bg-gradient-secondary mb-3" href="/books">Go To Library</a>
+                  </div>
+                </div>
+              </div>
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="<%= bookDetail.imageUrl %>" class="card-img book-image ms-3 mt-3 mb-3" alt="Book Image" />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h2 class="card-title mb-3"><%= bookDetail.title %></h2>
+                    <hr class="border border-secondary border-2 border-radius-md" />
+                    <table>
+                      <tr>
+                        <td><strong>Author : </strong></td>
+                        <td><p class="card-text"><%= bookDetail.author %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Genre : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.genre %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>ISBN : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.ISBN %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Published : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.publicationYear.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Quantity : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.availableQuantity %> / <%= bookDetail.quantity %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Availability : </strong></td>
+                        <td class="ps-2">
+                          <% if (bookDetail.availableQuantity == 0) { %>
+                          <span class="text-danger text-sm font-weight-bolder">Not Avaliable</span>
+                          <td><hr class="border border-3"></td>
+                          <% } else { %>
+                          <span class="text-success text-sm font-weight-bolder">Avaliable</span>
+                          <td><hr class="border border-3"></td>
+                          <% } %>
+                        </td>
+                      </tr>
+                    </table>
+                    <table>
+                        <tr>
+                          <td> <a class="btn btn-sm btn-block bg-gradient-info mb-3 mt-3" href="/books">Do Something</a> </td>
+                          <td class="ps-2"> <a class="btn btn-sm btn-block bg-gradient-danger mb-3 mt-3" href="/books">Do Something</a> </td>
+                        </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-8 mx-auto text-center mt-1">
+              <p class="mb-0 text-secondary">
+                Copyright ©
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                Soft by Word Keeper.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+  </body>
+</html>

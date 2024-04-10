@@ -1,0 +1,842 @@
+<%- include('includes/boilerplate.ejs') %> <%- include('includes/sidebar.ejs', {page: "books"}) %>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <%- include('includes/navbar.ejs') %>
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="align-items-center d-flex col-6">
+                <h6 class="mb-0">Book List</h6>
+              </div>
+              <div class="col-6 text-end">
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form">Add Book</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#BulkBookModal">Add Multiple Books</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filter-modal">Filter Books</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7">Title</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Details</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Qty / Ava.</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let book of books){ %>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          <img src="<%= book.imageUrl %>" class="avatar avatar-sm me-3" alt="bookImg">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                          <% let maxTitleLength = 50 %>
+                          <% if (book.title.length > maxTitleLength) { %>
+                            <h6 class="mb-0 text-sm"> <%= book.title.substring(0,maxTitleLength) %>... </h6>
+                          <% } else { %>
+                            <h6 class="mb-0 text-sm"><%= book.title %></h6>
+                          <% } %>
+                          <p class="text-xs text-secondary mb-0"><%= book.author %></p>
+                        </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0"><%= book.genre %></p>
+                      <p class="text-xs text-secondary mb-0"><%= book.ISBN %></p>
+                    </td>
+                    <td>
+                      <span class="text-secondary text-xs font-weight-bold"><%= book.quantity %> / <%= book.availableQuantity %></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="btn-group align-middle text-center dropstart">
+                        <button class="btn btn-link text-secondary mb-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-ellipsis-v text-xs"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <form action="/books/<%= book._id %>?_method=DELETE" method="post">
+                              <button class="dropdown-item" type="submit">Delete</button>
+                            </form>
+                          </li>
+                          <li>
+                            <button class="dropdown-item editButton" type="button" data-book-id="<%= book._id %>">Edit</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('includes/footer_admin.ejs') %>
+  </div>
+
+  <div class="card mb-4">
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card card-plain">
+              <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-info text-gradient">New Book</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <form action="/books/new" method="post" role="form" class="needs-validation" novalidate>
+                  <div class="mb-3 form-group">
+                    <label for="title">Book Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Book Title" id="title" required/>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Title.</div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="author">Book Author</label>
+                      <input type="text" name="author" class="form-control" placeholder="Book Author" id="author" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Author</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="ISBN">Book ISBN</label>
+                      <input type="text" name="ISBN" class="form-control" placeholder="Book ISBN" id="ISBN" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter ISBN</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="genre">Book Genre</label>
+                      <select name="genre" class="form-select" id="genre" required>
+                        <!-- Fiction -->
+                        <optgroup label="Fiction">
+                          <option value="generalFiction">General Fiction</option>
+                          <option value="historicalFiction">Historical Fiction</option>
+                          <option value="scienceFiction">Science Fiction</option>
+                          <option value="fantasy">Fantasy</option>
+                          <option value="mysteryThriller">Mystery/Thriller</option>
+                          <option value="horror">Horror</option>
+                          <option value="romance">Romance</option>
+                          <option value="adventure">Adventure</option>
+                        </optgroup>
+                        <!-- Non-Fiction -->
+                        <optgroup label="Non-Fiction">
+                          <option value="biographyAutobiography">Biography/Autobiography</option>
+                          <option value="memoir">Memoir</option>
+                          <option value="trueCrime">True Crime</option>
+                          <option value="selfHelp">Self-Help</option>
+                          <option value="psychology">Psychology</option>
+                          <option value="philosophy">Philosophy</option>
+                          <option value="history">History</option>
+                          <option value="science">Science</option>
+                          <option value="technology">Technology</option>
+                        </optgroup>
+                        <!-- Children's -->
+                        <optgroup label="Children's">
+                          <option value="pictureBooks">Picture Books</option>
+                          <option value="middleGrade">Middle-Grade</option>
+                          <option value="youngAdult">Young Adult (YA)</option>
+                          <option value="childrensFantasy">Children's Fantasy</option>
+                          <option value="childrensMystery">Children's Mystery</option>
+                          <option value="childrensScienceFiction">Children's Science Fiction</option>
+                        </optgroup>
+                        <!-- Poetry -->
+                        <optgroup label="Poetry">
+                          <option value="traditionalPoetry">Traditional Poetry</option>
+                          <option value="modernPoetry">Modern Poetry</option>
+                          <option value="epicPoetry">Epic Poetry</option>
+                          <option value="haiku">Haiku</option>
+                          <option value="sonnets">Sonnets</option>
+                        </optgroup>
+                        <!-- Mystery/Thriller -->
+                        <optgroup label="Mystery/Thriller">
+                          <option value="crimeFiction">Crime Fiction</option>
+                          <option value="detectiveFiction">Detective Fiction</option>
+                          <option value="psychologicalThriller">Psychological Thriller</option>
+                          <option value="legalThriller">Legal Thriller</option>
+                          <option value="spyThriller">Spy Thriller</option>
+                        </optgroup>
+                        <!-- Science Fiction (Sci-Fi) -->
+                        <optgroup label="Science Fiction (Sci-Fi)">
+                          <option value="spaceOpera">Space Opera</option>
+                          <option value="cyberpunk">Cyberpunk</option>
+                          <option value="hardScienceFiction">Hard Science Fiction</option>
+                          <option value="softScienceFiction">Soft Science Fiction</option>
+                          <option value="dystopianFiction">Dystopian Fiction</option>
+                        </optgroup>
+                        <!-- Fantasy -->
+                        <optgroup label="Fantasy">
+                          <option value="highFantasy">High Fantasy</option>
+                          <option value="lowFantasy">Low Fantasy</option>
+                          <option value="urbanFantasy">Urban Fantasy</option>
+                          <option value="magicalRealism">Magical Realism</option>
+                          <option value="paranormalFantasy">Paranormal Fantasy</option>
+                        </optgroup>
+                        <!-- Romance -->
+                        <optgroup label="Romance">
+                          <option value="contemporaryRomance">Contemporary Romance</option>
+                          <option value="historicalRomance">Historical Romance</option>
+                          <option value="regencyRomance">Regency Romance</option>
+                          <option value="paranormalRomance">Paranormal Romance</option>
+                        </optgroup>
+                        <!-- Horror -->
+                        <optgroup label="Horror">
+                          <option value="supernaturalHorror">Supernatural Horror</option>
+                          <option value="psychologicalHorror">Psychological Horror</option>
+                          <option value="gothicHorror">Gothic Horror</option>
+                          <option value="zombieFiction">Zombie Fiction</option>
+                          <option value="vampireFiction">Vampire Fiction</option>
+                        </optgroup>
+                        <!-- Historical Fiction -->
+                        <optgroup label="Historical Fiction">
+                          <option value="ancientHistory">Ancient History</option>
+                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
+                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
+                          <option value="worldWarIAndII">World War I and II Fiction</option>
+                        </optgroup>
+                        <!-- Biography/Autobiography -->
+                        <optgroup label="Biography/Autobiography">
+                          <option value="celebrityBiographies">Celebrity Biographies</option>
+                          <option value="politicalBiographies">Political Biographies</option>
+                          <option value="literaryBiographies">Literary Biographies</option>
+                          <option value="memoirs">Memoirs</option>
+                        </optgroup>
+                        <!-- Self-Help -->
+                        <optgroup label="Self-Help">
+                          <option value="personalDevelopment">Personal Development</option>
+                          <option value="motivational">Motivational</option>
+                          <option value="successStories">Success Stories</option>
+                          <option value="mindfulness">Mindfulness</option>
+                        </optgroup>
+                        <!-- Science and Nature -->
+                        <optgroup label="Science and Nature">
+                          <option value="physics">Physics</option>
+                          <option value="chemistry">Chemistry</option>
+                          <option value="biology">Biology</option>
+                          <option value="astronomy">Astronomy</option>
+                          <option value="earthSciences">Earth Sciences</option>
+                        </optgroup>
+                        <!-- Business and Finance -->
+                        <optgroup label="Business and Finance">
+                          <option value="leadership">Leadership</option>
+                          <option value="entrepreneurship">Entrepreneurship</option>
+                          <option value="personalFinance">Personal Finance</option>
+                          <option value="economics">Economics</option>
+                        </optgroup>
+                        <!-- Travel -->
+                        <optgroup label="Travel">
+                          <option value="travelGuides">Travel Guides</option>
+                          <option value="adventureTravel">Adventure Travel</option>
+                          <option value="travelMemoirs">Travel Memoirs</option>
+                        </optgroup>
+                        <!-- Cookbooks and Food -->
+                        <optgroup label="Cookbooks and Food">
+                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
+                          <option value="baking">Baking</option>
+                          <option value="healthyEating">Healthy Eating</option>
+                          <option value="foodMemoirs">Food Memoirs</option>
+                        </optgroup>
+                        <!-- Graphic Novels and Comics -->
+                        <optgroup label="Graphic Novels and Comics">
+                          <option value="superheroComics">Superhero Comics</option>
+                          <option value="graphicMemoirs">Graphic Memoirs</option>
+                          <option value="manga">Manga</option>
+                          <option value="webcomics">Webcomics</option>
+                        </optgroup>
+                        <!-- Religion and Spirituality -->
+                        <optgroup label="Religion and Spirituality">
+                          <option value="christianity">Christianity</option>
+                          <option value="islam">Islam</option>
+                          <option value="buddhism">Buddhism</option>
+                          <option value="hinduism">Hinduism</option>
+                          <option value="newAge">New Age</option>
+                        </optgroup>
+                        <!-- Humor -->
+                        <optgroup label="Humor">
+                          <option value="satire">Satire</option>
+                          <option value="comedy">Comedy</option>
+                          <option value="funnyEssays">Funny Essays</option>
+                        </optgroup>
+                        <!-- Essays and Short Stories -->
+                        <optgroup label="Essays and Short Stories">
+                          <option value="literaryEssays">Literary Essays</option>
+                          <option value="shortStoryCollections">Short Story Collections</option>
+                        </optgroup>
+                      </select>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Genre</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="publicationYear">Published Year</label>
+                      <input type="date" name="publicationYear" class="form-control" placeholder="Published Year" id="publicationYear" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Published Year</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="quantity">Quantity</label>
+                      <input type="number" name="quantity" class="form-control" placeholder="Quantity" id="quantity" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">Please Enter Quantity</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="availableQuantity">Available Quantity</label>
+                      <input type="number" name="availableQuantity" class="form-control" placeholder="Available Quantity" id="availableQuantity" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Available Quantity</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 form-group">
+                    <label for="imageUrl">Book Cover Page</label>
+                    <input type="text" name="imageUrl" class="form-control" placeholder="Book Cover Page URL" id="imageUrl" required/>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Image URL</div>
+                  </div>
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Add Book</button>
+                    <button type="reset" class="btn btn-sm bg-gradient-danger">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card card-plain">
+              <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-info text-gradient">Edit Book</h3>
+              </div>
+              </div>
+              <div class="card-body">
+                <form action="/books?_method=PATCH" method="post" class="needs-validation" novalidate>
+                  <div class="mb-3 form-group">
+                    <label for="editTitle">Book Title</label>
+                    <input type="hidden" name="id" id="editId">
+                    <input type="text" name="title" class="form-control" placeholder="Book Title" id="editTitle" required/>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Title.</div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="editAuthor">Book Author</label>
+                      <input type="text" name="author" class="form-control" placeholder="Book Author" id="editAuthor" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Author</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="editISBN">Book ISBN</label>
+                      <input type="text" name="ISBN" class="form-control" placeholder="Book ISBN" id="editISBN" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter ISBN</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="editGenre">Book Genre</label>
+                      <select name="genre" class="form-select" id="editGenre" required>
+                        <!-- Fiction -->
+                        <optgroup label="Fiction">
+                          <option value="generalFiction">General Fiction</option>
+                          <option value="historicalFiction">Historical Fiction</option>
+                          <option value="scienceFiction">Science Fiction</option>
+                          <option value="fantasy">Fantasy</option>
+                          <option value="mysteryThriller">Mystery/Thriller</option>
+                          <option value="horror">Horror</option>
+                          <option value="romance">Romance</option>
+                          <option value="adventure">Adventure</option>
+                        </optgroup>
+                        <!-- Non-Fiction -->
+                        <optgroup label="Non-Fiction">
+                          <option value="biographyAutobiography">Biography/Autobiography</option>
+                          <option value="memoir">Memoir</option>
+                          <option value="trueCrime">True Crime</option>
+                          <option value="selfHelp">Self-Help</option>
+                          <option value="psychology">Psychology</option>
+                          <option value="philosophy">Philosophy</option>
+                          <option value="history">History</option>
+                          <option value="science">Science</option>
+                          <option value="technology">Technology</option>
+                        </optgroup>
+                        <!-- Children's -->
+                        <optgroup label="Children's">
+                          <option value="pictureBooks">Picture Books</option>
+                          <option value="middleGrade">Middle-Grade</option>
+                          <option value="youngAdult">Young Adult (YA)</option>
+                          <option value="childrensFantasy">Children's Fantasy</option>
+                          <option value="childrensMystery">Children's Mystery</option>
+                          <option value="childrensScienceFiction">Children's Science Fiction</option>
+                        </optgroup>
+                        <!-- Poetry -->
+                        <optgroup label="Poetry">
+                          <option value="traditionalPoetry">Traditional Poetry</option>
+                          <option value="modernPoetry">Modern Poetry</option>
+                          <option value="epicPoetry">Epic Poetry</option>
+                          <option value="haiku">Haiku</option>
+                          <option value="sonnets">Sonnets</option>
+                        </optgroup>
+                        <!-- Mystery/Thriller -->
+                        <optgroup label="Mystery/Thriller">
+                          <option value="crimeFiction">Crime Fiction</option>
+                          <option value="detectiveFiction">Detective Fiction</option>
+                          <option value="psychologicalThriller">Psychological Thriller</option>
+                          <option value="legalThriller">Legal Thriller</option>
+                          <option value="spyThriller">Spy Thriller</option>
+                        </optgroup>
+                        <!-- Science Fiction (Sci-Fi) -->
+                        <optgroup label="Science Fiction (Sci-Fi)">
+                          <option value="spaceOpera">Space Opera</option>
+                          <option value="cyberpunk">Cyberpunk</option>
+                          <option value="hardScienceFiction">Hard Science Fiction</option>
+                          <option value="softScienceFiction">Soft Science Fiction</option>
+                          <option value="dystopianFiction">Dystopian Fiction</option>
+                        </optgroup>
+                        <!-- Fantasy -->
+                        <optgroup label="Fantasy">
+                          <option value="highFantasy">High Fantasy</option>
+                          <option value="lowFantasy">Low Fantasy</option>
+                          <option value="urbanFantasy">Urban Fantasy</option>
+                          <option value="magicalRealism">Magical Realism</option>
+                          <option value="paranormalFantasy">Paranormal Fantasy</option>
+                        </optgroup>
+                        <!-- Romance -->
+                        <optgroup label="Romance">
+                          <option value="contemporaryRomance">Contemporary Romance</option>
+                          <option value="historicalRomance">Historical Romance</option>
+                          <option value="regencyRomance">Regency Romance</option>
+                          <option value="paranormalRomance">Paranormal Romance</option>
+                        </optgroup>
+                        <!-- Horror -->
+                        <optgroup label="Horror">
+                          <option value="supernaturalHorror">Supernatural Horror</option>
+                          <option value="psychologicalHorror">Psychological Horror</option>
+                          <option value="gothicHorror">Gothic Horror</option>
+                          <option value="zombieFiction">Zombie Fiction</option>
+                          <option value="vampireFiction">Vampire Fiction</option>
+                        </optgroup>
+                        <!-- Historical Fiction -->
+                        <optgroup label="Historical Fiction">
+                          <option value="ancientHistory">Ancient History</option>
+                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
+                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
+                          <option value="worldWarIAndII">World War I and II Fiction</option>
+                        </optgroup>
+                        <!-- Biography/Autobiography -->
+                        <optgroup label="Biography/Autobiography">
+                          <option value="celebrityBiographies">Celebrity Biographies</option>
+                          <option value="politicalBiographies">Political Biographies</option>
+                          <option value="literaryBiographies">Literary Biographies</option>
+                          <option value="memoirs">Memoirs</option>
+                        </optgroup>
+                        <!-- Self-Help -->
+                        <optgroup label="Self-Help">
+                          <option value="personalDevelopment">Personal Development</option>
+                          <option value="motivational">Motivational</option>
+                          <option value="successStories">Success Stories</option>
+                          <option value="mindfulness">Mindfulness</option>
+                        </optgroup>
+                        <!-- Science and Nature -->
+                        <optgroup label="Science and Nature">
+                          <option value="physics">Physics</option>
+                          <option value="chemistry">Chemistry</option>
+                          <option value="biology">Biology</option>
+                          <option value="astronomy">Astronomy</option>
+                          <option value="earthSciences">Earth Sciences</option>
+                        </optgroup>
+                        <!-- Business and Finance -->
+                        <optgroup label="Business and Finance">
+                          <option value="leadership">Leadership</option>
+                          <option value="entrepreneurship">Entrepreneurship</option>
+                          <option value="personalFinance">Personal Finance</option>
+                          <option value="economics">Economics</option>
+                        </optgroup>
+                        <!-- Travel -->
+                        <optgroup label="Travel">
+                          <option value="travelGuides">Travel Guides</option>
+                          <option value="adventureTravel">Adventure Travel</option>
+                          <option value="travelMemoirs">Travel Memoirs</option>
+                        </optgroup>
+                        <!-- Cookbooks and Food -->
+                        <optgroup label="Cookbooks and Food">
+                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
+                          <option value="baking">Baking</option>
+                          <option value="healthyEating">Healthy Eating</option>
+                          <option value="foodMemoirs">Food Memoirs</option>
+                        </optgroup>
+                        <!-- Graphic Novels and Comics -->
+                        <optgroup label="Graphic Novels and Comics">
+                          <option value="superheroComics">Superhero Comics</option>
+                          <option value="graphicMemoirs">Graphic Memoirs</option>
+                          <option value="manga">Manga</option>
+                          <option value="webcomics">Webcomics</option>
+                        </optgroup>
+                        <!-- Religion and Spirituality -->
+                        <optgroup label="Religion and Spirituality">
+                          <option value="christianity">Christianity</option>
+                          <option value="islam">Islam</option>
+                          <option value="buddhism">Buddhism</option>
+                          <option value="hinduism">Hinduism</option>
+                          <option value="newAge">New Age</option>
+                        </optgroup>
+                        <!-- Humor -->
+                        <optgroup label="Humor">
+                          <option value="satire">Satire</option>
+                          <option value="comedy">Comedy</option>
+                          <option value="funnyEssays">Funny Essays</option>
+                        </optgroup>
+                        <!-- Essays and Short Stories -->
+                        <optgroup label="Essays and Short Stories">
+                          <option value="literaryEssays">Literary Essays</option>
+                          <option value="shortStoryCollections">Short Story Collections</option>
+                        </optgroup>
+                      </select>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Genre</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="editPublicationYear">Published Year</label>
+                      <input type="date" name="publicationYear" class="form-control" placeholder="Published Year" id="editPublicationYear" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Published Year</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="editQuantity">Quantity</label>
+                      <input type="number" name="quantity" class="form-control" placeholder="Quantity" id="editQuantity" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Quantity</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="editAvailableQuantity">Available Quantity</label>
+                      <input type="number" name="availableQuantity" class="form-control" placeholder="Available Quantity" id="editAvailableQuantity" required/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Available Quantity</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 form-group">
+                    <label for="editImageUrl">Book Cover Page</label>
+                    <input type="text" name="imageUrl" class="form-control" placeholder="Book Cover Page URL" id="editImageUrl" required/>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Image URL</div>
+                  </div>
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Edit Book</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="modal fade" id="BulkBookModal" tabindex="-1" role="dialog" aria-labelledby="BulkBookModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card card-plain">
+              <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-info text-gradient">Multiple Books</h3>
+              </div>
+              <div class="card-body">
+                <form action="/books/upload" method="post" novalidate class="needs-validation" role="form" enctype="multipart/form-data">
+                  <div class="form-group mb-3">
+                    <label for="excelFile">Upload Excel File</label>
+                    <input type="file" name="excelFile" accept=".xslx,.xls" class="form-control" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Upload File</div>
+                  </div>
+                  <div class="mb-0">
+                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Add Books</button>
+                    <button type="reset" class="btn btn-sm bg-gradient-danger">Cancel</button>
+                  </div>
+                </form>
+                <ul class="list-unstyled">
+                  <li class="text-xs mt-1">Download The Excel Template For Bulk Books Uploading.</li>
+                  <li class="text-xs mt-1">Don't Leave Any  Field Empty Or Else Books Won't Be Added.</li>
+                  <li class="text-xs mt-1"><a href="#">Click Here To Download Excel Template</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-labelledby="filter-modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card card-plain">
+              <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-info text-gradient">Filter Books</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <form action="/dashboard/books" method="get" role="form" class="needs-validation" novalidate>
+                  <div class="mb-3 form-group">
+                    <label for="title">Search By Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Book Title" value="<%= filters.title || '' %>" />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Title.</div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="author">Search By Author</label>
+                      <input type="text" name="author" class="form-control" placeholder="Book Author" value="<%= filters.author || '' %>"/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Author</div>
+                    </div>
+                    <div class="col form-group">
+                      <label for="ISBN">Search By ISBN</label>
+                      <input type="text" name="ISBN" class="form-control" placeholder="Book ISBN" value="<%= filters.ISBN || '' %>"/>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter ISBN</div>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <div class="col form-group">
+                      <label for="genre">Search By Genre</label>
+                      <select name="genre" class="form-select" id="genre">
+                        <option value="" selected>None</option>
+                        <!-- Fiction -->
+                        <optgroup label="Fiction">
+                          <option value="generalFiction">General Fiction</option>
+                          <option value="historicalFiction">Historical Fiction</option>
+                          <option value="scienceFiction">Science Fiction</option>
+                          <option value="fantasy">Fantasy</option>
+                          <option value="mysteryThriller">Mystery/Thriller</option>
+                          <option value="horror">Horror</option>
+                          <option value="romance">Romance</option>
+                          <option value="adventure">Adventure</option>
+                        </optgroup>
+                        <!-- Non-Fiction -->
+                        <optgroup label="Non-Fiction">
+                          <option value="biographyAutobiography">Biography/Autobiography</option>
+                          <option value="memoir">Memoir</option>
+                          <option value="trueCrime">True Crime</option>
+                          <option value="selfHelp">Self-Help</option>
+                          <option value="psychology">Psychology</option>
+                          <option value="philosophy">Philosophy</option>
+                          <option value="history">History</option>
+                          <option value="science">Science</option>
+                          <option value="technology">Technology</option>
+                        </optgroup>
+                        <!-- Children's -->
+                        <optgroup label="Children's">
+                          <option value="pictureBooks">Picture Books</option>
+                          <option value="middleGrade">Middle-Grade</option>
+                          <option value="youngAdult">Young Adult (YA)</option>
+                          <option value="childrensFantasy">Children's Fantasy</option>
+                          <option value="childrensMystery">Children's Mystery</option>
+                          <option value="childrensScienceFiction">Children's Science Fiction</option>
+                        </optgroup>
+                        <!-- Poetry -->
+                        <optgroup label="Poetry">
+                          <option value="traditionalPoetry">Traditional Poetry</option>
+                          <option value="modernPoetry">Modern Poetry</option>
+                          <option value="epicPoetry">Epic Poetry</option>
+                          <option value="haiku">Haiku</option>
+                          <option value="sonnets">Sonnets</option>
+                        </optgroup>
+                        <!-- Mystery/Thriller -->
+                        <optgroup label="Mystery/Thriller">
+                          <option value="crimeFiction">Crime Fiction</option>
+                          <option value="detectiveFiction">Detective Fiction</option>
+                          <option value="psychologicalThriller">Psychological Thriller</option>
+                          <option value="legalThriller">Legal Thriller</option>
+                          <option value="spyThriller">Spy Thriller</option>
+                        </optgroup>
+                        <!-- Science Fiction (Sci-Fi) -->
+                        <optgroup label="Science Fiction (Sci-Fi)">
+                          <option value="spaceOpera">Space Opera</option>
+                          <option value="cyberpunk">Cyberpunk</option>
+                          <option value="hardScienceFiction">Hard Science Fiction</option>
+                          <option value="softScienceFiction">Soft Science Fiction</option>
+                          <option value="dystopianFiction">Dystopian Fiction</option>
+                        </optgroup>
+                        <!-- Fantasy -->
+                        <optgroup label="Fantasy">
+                          <option value="highFantasy">High Fantasy</option>
+                          <option value="lowFantasy">Low Fantasy</option>
+                          <option value="urbanFantasy">Urban Fantasy</option>
+                          <option value="magicalRealism">Magical Realism</option>
+                          <option value="paranormalFantasy">Paranormal Fantasy</option>
+                        </optgroup>
+                        <!-- Romance -->
+                        <optgroup label="Romance">
+                          <option value="contemporaryRomance">Contemporary Romance</option>
+                          <option value="historicalRomance">Historical Romance</option>
+                          <option value="regencyRomance">Regency Romance</option>
+                          <option value="paranormalRomance">Paranormal Romance</option>
+                        </optgroup>
+                        <!-- Horror -->
+                        <optgroup label="Horror">
+                          <option value="supernaturalHorror">Supernatural Horror</option>
+                          <option value="psychologicalHorror">Psychological Horror</option>
+                          <option value="gothicHorror">Gothic Horror</option>
+                          <option value="zombieFiction">Zombie Fiction</option>
+                          <option value="vampireFiction">Vampire Fiction</option>
+                        </optgroup>
+                        <!-- Historical Fiction -->
+                        <optgroup label="Historical Fiction">
+                          <option value="ancientHistory">Ancient History</option>
+                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
+                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
+                          <option value="worldWarIAndII">World War I and II Fiction</option>
+                        </optgroup>
+                        <!-- Biography/Autobiography -->
+                        <optgroup label="Biography/Autobiography">
+                          <option value="celebrityBiographies">Celebrity Biographies</option>
+                          <option value="politicalBiographies">Political Biographies</option>
+                          <option value="literaryBiographies">Literary Biographies</option>
+                          <option value="memoirs">Memoirs</option>
+                        </optgroup>
+                        <!-- Self-Help -->
+                        <optgroup label="Self-Help">
+                          <option value="personalDevelopment">Personal Development</option>
+                          <option value="motivational">Motivational</option>
+                          <option value="successStories">Success Stories</option>
+                          <option value="mindfulness">Mindfulness</option>
+                        </optgroup>
+                        <!-- Science and Nature -->
+                        <optgroup label="Science and Nature">
+                          <option value="physics">Physics</option>
+                          <option value="chemistry">Chemistry</option>
+                          <option value="biology">Biology</option>
+                          <option value="astronomy">Astronomy</option>
+                          <option value="earthSciences">Earth Sciences</option>
+                        </optgroup>
+                        <!-- Business and Finance -->
+                        <optgroup label="Business and Finance">
+                          <option value="leadership">Leadership</option>
+                          <option value="entrepreneurship">Entrepreneurship</option>
+                          <option value="personalFinance">Personal Finance</option>
+                          <option value="economics">Economics</option>
+                        </optgroup>
+                        <!-- Travel -->
+                        <optgroup label="Travel">
+                          <option value="travelGuides">Travel Guides</option>
+                          <option value="adventureTravel">Adventure Travel</option>
+                          <option value="travelMemoirs">Travel Memoirs</option>
+                        </optgroup>
+                        <!-- Cookbooks and Food -->
+                        <optgroup label="Cookbooks and Food">
+                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
+                          <option value="baking">Baking</option>
+                          <option value="healthyEating">Healthy Eating</option>
+                          <option value="foodMemoirs">Food Memoirs</option>
+                        </optgroup>
+                        <!-- Graphic Novels and Comics -->
+                        <optgroup label="Graphic Novels and Comics">
+                          <option value="superheroComics">Superhero Comics</option>
+                          <option value="graphicMemoirs">Graphic Memoirs</option>
+                          <option value="manga">Manga</option>
+                          <option value="webcomics">Webcomics</option>
+                        </optgroup>
+                        <!-- Religion and Spirituality -->
+                        <optgroup label="Religion and Spirituality">
+                          <option value="christianity">Christianity</option>
+                          <option value="islam">Islam</option>
+                          <option value="buddhism">Buddhism</option>
+                          <option value="hinduism">Hinduism</option>
+                          <option value="newAge">New Age</option>
+                        </optgroup>
+                        <!-- Humor -->
+                        <optgroup label="Humor">
+                          <option value="satire">Satire</option>
+                          <option value="comedy">Comedy</option>
+                          <option value="funnyEssays">Funny Essays</option>
+                        </optgroup>
+                        <!-- Essays and Short Stories -->
+                        <optgroup label="Essays and Short Stories">
+                          <option value="literaryEssays">Literary Essays</option>
+                          <option value="shortStoryCollections">Short Story Collections</option>
+                        </optgroup>
+                      </select>
+                      <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Genre</div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Filter Books</button>
+                    <a href="/dashboard/books" class="btn btn-sm bg-gradient-danger">Clear Filter</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('includes/fixedpulgin.ejs') %> <%- include('includes/corejsfiles.ejs') %>
+<!-- Add this script in the <head> section of your HTML file -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the current date in the format 'YYYY-MM-DD'
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    // Set the default value of the input field to today's date
+    document.getElementById("dateInput").value = currentDate;
+  });
+</script>
+<script>
+  function validateForm(event) {
+    const form = event.target.form;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    form.classList.add('was-validated');
+  }
+</script>
+<script>
+  const editButtons = document.querySelectorAll('.editButton');
+  // const editModal = document.getElementById('BulkBookModal');
+  const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener('click', async () => {
+      bookId = editButton.dataset.bookId; 
+      const response = await fetch(`/books/${bookId}/edit`);
+      const bookDetails = await response.json();
+
+      document.getElementById('editId').value = bookDetails._id;
+      document.getElementById('editTitle').value = bookDetails.title;
+      document.getElementById('editAuthor').value = bookDetails.author;
+      document.getElementById('editISBN').value = bookDetails.ISBN;
+      document.getElementById("editPublicationYear").defaultValue = bookDetails.publicationYear.slice(0,10);
+      document.getElementById('editQuantity').value = bookDetails.quantity;
+      document.getElementById('editAvailableQuantity').value = bookDetails.availableQuantity;
+      document.getElementById('editImageUrl').value = bookDetails.imageUrl;
+
+      editModal.show();
+    });
+  });
+</script>

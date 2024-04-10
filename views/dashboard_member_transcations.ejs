@@ -1,0 +1,143 @@
+<%- include('includes/boilerplate.ejs') %> <%- include('includes/memberSidebar.ejs', {page: "MyTranscations"}) %>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <%- include('includes/navbar.ejs') %>
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0 px-3">
+            <div class="row">
+              <div class="align-items-center d-flex col-6">
+                <h6 class="mb-0">Transcation List</h6>
+              </div>
+              <div class="col-6 text-end">
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#find-modal">Filter Transcation</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-4 p-3">
+            <ul class="list-group">
+              <% for (let transcation of transcations) { %>
+              <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                <div class="d-flex flex-column">
+                  <h6 class="mb-3 text-sm">
+                    Transcation ID : <%= transcation.transcationId %> <% if (transcation.returnDate) { %> <% if (transcation.returnDate > transcation.dueDate) { %>
+                    <span class="badge bg-gradient-info">Returned (Overdue)</span>
+                    <% } else { %>
+                    <span class="badge bg-gradient-success">Returned</span>
+                    <% } %> <% } else { %> <% if (new Date() > transcation.dueDate) { %>
+                    <span class="badge bg-gradient-danger">Overdue</span>
+                    <% } else { %>
+                    <span class="badge bg-gradient-warning">Due Soon</span>
+                    <% } %> <% } %>
+                  </h6>
+                  <table class="tablelist">
+                    <tr>
+                        <td>
+                            <span class="text-xs">Type : </span>
+                        </td>
+                        <td>
+                            <span class="text-dark font-weight-bold ms-sm-2 ps-5 text-xs"> <%= transcation.transactionType %> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="text-xs">Book Name : </span>
+                        </td>
+                        <td>
+                            <span class="text-dark font-weight-bold ms-sm-2 ps-5 text-xs"> <%= transcation.bookName %> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="text-xs">Issued Date : </span>
+                        </td>
+                        <td>
+                            <span class="text-dark font-weight-bold ms-sm-2 ps-5 text-xs"> <%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="text-xs">Due Date : </span>
+                        </td>
+                        <td>
+                            <span class="text-dark font-weight-bold ms-sm-2 ps-5 text-xs"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
+                        </td>
+                    </tr>
+                    <% if (transcation.returnDate) { %>
+                    <tr>
+                        <td>
+                            <span class="text-xs">Return Date : </span>
+                        </td>
+                        <td>
+                            <span class="text-dark font-weight-bold ms-sm-2 ps-5 text-xs"> <%= transcation.returnDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
+                        </td>
+                    </tr>
+                    <% } %>
+                  </table>
+                </div>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('includes/footer_member.ejs') %>
+  </div>
+
+  <div class="modal fade" id="find-modal" tabindex="-1" role="dialog" aria-labelledby="new-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-info text-gradient">Filter Transcation</h3>
+            </div>
+            <div class="card-body">
+              <form action="/dashboard/my-transcations" method="get" role="form" novalidate>
+                <div class="row mb-3">
+                  <div class="col form-group">
+                    <label for="transcationId">Filter By Transcation ID</label>
+                    <input
+                      type="text"
+                      name="transcationId"
+                      placeholder="Enter Transcation ID"
+                      class="form-control"
+                      value="<%= filters.transcationId || '' %>"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="transactionType">Filter By Type</label>
+                    <select name="transactionType" class="form-select">
+                      <option value="">None</option>
+                      <option value="Borrow" <% if(filters.transactionType == "Borrow") {%> selected <% } %> >Borrow</option>
+                      <option value="Return" <% if(filters.transactionType == "Return") {%> selected <% } %>>Return</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="bookName">Filter By Book</label>
+                    <select name="bookName" class="form-select" id="bookName">
+                      <option value="" selected>None</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Filter Transcation</button>
+                  <a class="btn btn-sm bg-gradient-danger" href="/dashboard/my-transcations">Clear Filter</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('includes/fixedpulgin.ejs') %> <%- include('includes/corejsfiles.ejs') %>

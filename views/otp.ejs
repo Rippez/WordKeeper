@@ -1,0 +1,205 @@
+<!--
+=========================================================
+* Soft UI Dashboard - v1.0.7
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.png" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <title>Word Keeper</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+  </head>
+
+  <body class="">
+    <div class="container position-sticky z-index-sticky top-0">
+      <div class="row">
+        <div class="col-12">
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+            <div class="container-fluid pe-0">
+              <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="/"> Word Keeper </a>
+              <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon mt-2">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </span>
+              </button>
+              <div class="collapse navbar-collapse" id="navigation">
+                <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/">
+                      <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                      Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-2" href="/signup">
+                      <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                      Sign Up
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-2" href="/login">
+                      <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                      Log In
+                    </a>
+                  </li>
+                </ul>
+                <li class="nav-item d-flex align-items-center">
+                  <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" target="_blank" href="/contact-us">Contact Us</a>
+                </li>
+                <ul class="navbar-nav d-lg-block d-none">
+                  <li class="nav-item">
+                    <a href="/books" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Books</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+      </div>
+    </div>
+    <main class="main-content main-content-bg mt-0">
+      <section>
+        <div class="page-header min-vh-75">
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-5 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+                <div class="card card-plain">
+                  <div class="card-body px-lg-5 py-lg-5 text-center">
+                    <div class="text-center text-muted mb-4">
+                      <% if (error) { %>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                        <span class="alert-text"><strong>Error :</strong> <%= error %></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <% } %>
+                      <h2>OTP Verification</h2>
+                    </div>
+                    <form action="/members/check-otp" method="post" novalidate>
+                      <div class="row gx-2 gx-sm-3">
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num1" required />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num2" required />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num3" required />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num4" required />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num5" required />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-lg" maxlength="1" autocomplete="off" autocapitalize="off" name="num6" required />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn bg-gradient-warning w-100" onclick="validateForm(event)">Verify code</button>
+                        <span class="text-muted text-sm">Haven't received it?<a href="#"> Resend a new code</a>.</span>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+                  <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image: url('../../../assets/img/curved-images/curved9.jpg')"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+    <footer class="footer py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-8 mx-auto text-center mt-1">
+            <p class="mb-0 text-secondary">
+              Copyright ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              Soft by Word Keeper.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+      var win = navigator.platform.indexOf("Win") > -1;
+      if (win && document.querySelector("#sidenav-scrollbar")) {
+        var options = {
+          damping: "0.5",
+        };
+        Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+      }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+    <script>
+      function validateForm(event) {
+        const form = event.target.form;
+
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add("was-validated");
+      }
+    </script>
+  </body>
+</html>
