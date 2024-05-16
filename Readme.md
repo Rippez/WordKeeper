@@ -1,7 +1,7 @@
 # Word Keeper
 
 <div style="text-align:center;">
-	![Word-Keeper-Logo](https://res.cloudinary.com/dg4bxglze/image/upload/v1715843875/logo.png)
+	<img src="https://res.cloudinary.com/dg4bxglze/image/upload/v1715843875/logo.png" />
 </div>
 
 A MERN-based library management system to efficiently organize and manage your library collections.
