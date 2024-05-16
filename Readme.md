@@ -38,7 +38,7 @@ A MERN-based library management system to efficiently organize and manage your l
 - **JavaScript**: For client-side interactivity
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/alpha-hellboy/word-keeper.git`
+1. Clone the repository: `git clone https://github.com/jenil-desai/word-keeper.git`
 2. Navigate to the project directory: `cd word-keeper`
 3. Install dependencies: `npm install`
 4. Set up environment variables:
