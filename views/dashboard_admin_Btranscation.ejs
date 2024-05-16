@@ -48,7 +48,7 @@
                 </div>
                 <div class="ms-auto text-end">
                   <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="#confirmModal" data-transaction-id="<%= transcation._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                  <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                  <a class="btn btn-link text-dark px-3 mb-0 editButton"  data-transcation-id="<%= transcation.transcationId %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
                 </div>
               </li>
               <% } %>
@@ -205,6 +205,60 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="editTranscationModal" tabindex="-1" role="dialog" aria-labelledby="editTranscationModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-info text-gradient">Edit Transcation</h3>
+            </div>
+            <div class="card-body">
+              <form action="/transcation?_method=PATCH" method="post" role="form">
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editTranscationID">Transcation ID</label>
+                    <input type="text" name="transcationId" id="editTranscationId" class="form-control" placeholder="Transcation ID" required readonly>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editUsername">Username</label>
+                    <input type="hidden" name="id" id="editId">
+                    <input type="text" name="memberUsername" class="form-control" placeholder="Username" id="editUsername" required />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Username</div>
+                  </div>
+                  <div class="col form-group">
+                    <label for="editDueDate">Due Date</label>
+                    <input type="date" name="dueDate" class="form-control" placeholder="Due Date" id="editDueDate" required />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Date</div>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editBook">Book Name</label>
+                    <select name="bookName" id="editBook" class="form-control" required>
+                      <% for (const book of books) { %> <% if (book.availableQuantity > 0) { %>
+                        <option value="<%= book.title %>"><%= book.title %></option>
+                        <% } %> <% } %>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Book</div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Save Transcation</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 <%- include('includes/fixedpulgin.ejs') %> <%- include('includes/corejsfiles.ejs') %>
 <script>
@@ -226,5 +280,33 @@
       var deleteUrl = '/transcation/delete/' + transactionId; // Construct the delete URL
       var modal = $(this);
       modal.find('#deleteTransactionBtn').attr('href', deleteUrl); // Set the href attribute of the "Delete" button
+  });
+</script>
+<script>
+  const editButtons = document.querySelectorAll('.editButton');
+  const editModal = new bootstrap.Modal(document.getElementById('editTranscationModal'));
+
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener('click', async () => {
+      transactionId = editButton.dataset.transcationId; 
+      const response = await fetch(`/transcation/${transactionId}/edit`);
+      const transcationDetails = await response.json();
+
+      console.log(transcationDetails)
+
+      document.getElementById('editId').value = transcationDetails[0]._id;
+      document.getElementById('editTranscationId').value = transcationDetails[0].transcationId;
+      document.getElementById('editUsername').value = transcationDetails[0].memberUsername;
+      document.getElementById("editDueDate").defaultValue = transcationDetails[0].dueDate.slice(0,10);
+
+      const bookSelect = document.getElementById('editBook');
+      const bookOption = bookSelect.querySelector(`option[value="${transcationDetails[0].bookName}"]`);
+
+      if (bookOption) {
+        bookOption.selected = true;
+      }
+
+      editModal.show();
+    });
   });
 </script>

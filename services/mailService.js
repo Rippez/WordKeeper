@@ -16,6 +16,9 @@ async function sendEmailNotification(subject, text, recipient) {
     to: recipient,
     subject: subject,
     text: text,
+    headers: {
+      "Content-Type": "text/html",
+    },
   };
 
   try {

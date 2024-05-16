@@ -1,78 +1,73 @@
-# Word Keeper - Library Management System (LMS)
+# Word Keeper
 
-Word Keeper is a Library Management System (LMS) designed to help libraries and bookstores manage their collections, users, and transactions effectively.
+<div style="text-align:center;">
+	![Word-Keeper-Logo](https://res.cloudinary.com/dg4bxglze/image/upload/v1715843875/logo.png)
+</div>
+
+A MERN-based library management system to efficiently organize and manage your library collections.
 
 ## Features
+- User authentication and authorization system
+- Dashboard for members to view their borrowed books and account information
+- Profile pages for users to edit their personal information
+- Add, edit, and delete books
+- Search functionality to find books quickly
+- Manage book loans and returns
+- Email notifications for overdue books
+- Password resetting functionality
+- Dashboard for admin to view overall library statistics
 
-- User Authentication: Register, login, and manage user accounts securely.
-- Book Management: Add, edit, and delete books from the library inventory.
-- Transaction Management: Issue, return, and track book transactions.
-- User Preferences: Customize email notifications and preferences.
-- OTP System for Password Recovery: Securely recover passwords using a one-time password (OTP) sent to the user's registered email.
+## Future Features
+- Advanced Book Recommendation System
+- Advanced Online Book Reading
+- Online Books reading progress saving
+- Payments Plans for online books reading
+- Clubs for similar interested Users to discuss
+
 
 ## Technologies Used
-
-- Frontend: HTML, CSS, JavaScript, Bootstrap
-- Backend: Node.js, Express.js, MongoDB
-- Authentication: Passport.js
-- Cloud Storage: Cloudinary for storing book images
-- Email Services: Mailchimp for sending email notifications
-- External APIs: Integration with external APIs for various functionalities
+- **MongoDB**: For Database
+- **Node.js**: For server-side JavaScript runtime
+- **Express.js**: For building web applications and APIs
+- **bcrypt**: For password hashing
+- **Express Sessions**: For session management
+- **EJS (Embedded JavaScript)**: For templating
+- **Bootstrap**: For front-end design
+- **HTML**: For web page structure
+- **CSS**: For styling
+- **JavaScript**: For client-side interactivity
 
 ## Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/your-username/word-keeper.git
-   ```
-
-2. Install dependencies:
-   ```
-   cd word-keeper
-   npm install
-   ```
-
-3. Set up environment variables:
-   - Create a `.env` file in the root directory.
-   - Add the following environment variables:
-     ```
-     PORT=3000
-     DATABASE_URL=your_mongodb_url
-     SESSION_SECRET=your_session_secret
-     CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-     CLOUDINARY_API_KEY=your_cloudinary_api_key
-     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-     MAIL_USER=your_mail_username
-     MAIL_PASS=your_mail_password
-     X_API_KEY=your_api-ninjas_api_key
-     ```
-4. Create an admin account:
-    ```
-    node ./utils/createAdminUser.js
-    ```
-
-5. Start the server:
-   ```
-   node index.js
-   ```
-
-6. Open your browser and navigate to `http://localhost:8080` to access the application.
+1. Clone the repository: `git clone https://github.com/alpha-hellboy/word-keeper.git`
+2. Navigate to the project directory: `cd word-keeper`
+3. Install dependencies: `npm install`
+4. Set up environment variables:
+   - `PORT=8080`
+   - `SECRET=For Hashing`
+   - `DATABASE_URL=MongoDB URL`
+   - `MAIL_USER=mail_ID to send emails`
+   - `MAIL_PASS=mail_password to send emails`
+   - `CLOUD_NAME=cloudinary cloud name to store images`
+   - `API_KEY=cloudinary api_key`
+   - `API_SECRET=cloudinary api_secret`
+   - `X_API_KEY=ninjaAPI api key`
+5. Create an admin account: `node ./utils/createAdminUser.js`
+6. Start the server: `node index.js`
 
 ## Usage
-
 - Register an account or use the default admin account (username: admin, password: admin123) to access admin functionalities.
 - Add books to the library, manage transactions, and customize user preferences.
 - Recover passwords using the OTP system by providing the OTP sent to your registered email.
 - Enjoy a seamless library management experience with enhanced security features.
 
-## Contributing
+## Version History
+Please refer to our [Notion page](link-to-your-notion-version-history) for the detailed version history.
 
-Contributions are welcome! Fork the repository, make your changes, and submit a pull request.
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
-
-For any inquiries or issues, please contact [jenildev91@gmail.com](mailto:jenildev91@gmail.com).
+For any inquiries or feedback, please contact [Jenil Desai](mailto:jenildev91@gmail.com).

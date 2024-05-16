@@ -117,12 +117,10 @@ router.post("/upload", upload.single("excelFile"), async (req, res) => {
       }
     });
 
-    // Insert books into the database
     await Book.insertMany(books);
 
     fs.unlinkSync(req.file.path);
 
-    // res.status(200).send('Books added successfully');
     res.redirect("/dashboard/books");
   } catch (error) {
     console.error(error);

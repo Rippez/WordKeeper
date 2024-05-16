@@ -10,8 +10,7 @@ const Transaction = require("../models/Transaction");
 const getRandomQuote = require("../services/quoteService");
 const getRandomRiddle = require("../services/riddleService");
 const dashboardService = require("../services/dashboardService");
-const { ifError } = require("assert");
-const { generateKeySync } = require("crypto");
+const transcationService = require("../services/transcationService");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -30,6 +29,143 @@ const checkMemberAuthentication = (req, res, next) => {
   } else {
     res.redirect("/login");
   }
+};
+
+const genres = {
+  Fiction: {
+    generalFiction: "General Fiction",
+    historicalFiction: "Historical Fiction",
+    scienceFiction: "Science Fiction",
+    fantasy: "Fantasy",
+    mysteryThriller: "Mystery/Thriller",
+    horror: "Horror",
+    romance: "Romance",
+    adventure: "Adventure",
+  },
+  "Non-Fiction": {
+    biographyAutobiography: "Biography/Autobiography",
+    memoir: "Memoir",
+    trueCrime: "True Crime",
+    selfHelp: "Self-Help",
+    psychology: "Psychology",
+    philosophy: "Philosophy",
+    history: "History",
+    science: "Science",
+    technology: "Technology",
+  },
+  "Children's": {
+    pictureBooks: "Picture Books",
+    middleGrade: "Middle-Grade",
+    youngAdult: "Young Adult (YA)",
+    childrensFantasy: "Children's Fantasy",
+    childrensMystery: "Children's Mystery",
+    childrensScienceFiction: "Children's Science Fiction",
+  },
+  Poetry: {
+    traditionalPoetry: "Traditional Poetry",
+    modernPoetry: "Modern Poetry",
+    epicPoetry: "Epic Poetry",
+    haiku: "Haiku",
+    sonnets: "Sonnets",
+  },
+  "Mystery/Thriller": {
+    crimeFiction: "Crime Fiction",
+    detectiveFiction: "Detective Fiction",
+    psychologicalThriller: "Psychological Thriller",
+    legalThriller: "Legal Thriller",
+    spyThriller: "Spy Thriller",
+  },
+  "Science Fiction (Sci-Fi)": {
+    spaceOpera: "Space Opera",
+    cyberpunk: "Cyberpunk",
+    hardScienceFiction: "Hard Science Fiction",
+    softScienceFiction: "Soft Science Fiction",
+    dystopianFiction: "Dystopian Fiction",
+  },
+  Fantasy: {
+    highFantasy: "High Fantasy",
+    lowFantasy: "Low Fantasy",
+    urbanFantasy: "Urban Fantasy",
+    magicalRealism: "Magical Realism",
+    paranormalFantasy: "Paranormal Fantasy",
+  },
+  Romance: {
+    contemporaryRomance: "Contemporary Romance",
+    historicalRomance: "Historical Romance",
+    regencyRomance: "Regency Romance",
+    paranormalRomance: "Paranormal Romance",
+  },
+  Horror: {
+    supernaturalHorror: "Supernatural Horror",
+    psychologicalHorror: "Psychological Horror",
+    gothicHorror: "Gothic Horror",
+    zombieFiction: "Zombie Fiction",
+    vampireFiction: "Vampire Fiction",
+  },
+  "Historical Fiction": {
+    ancientHistory: "Ancient History",
+    medievalHistoricalFiction: "Medieval Historical Fiction",
+    renaissanceHistoricalFiction: "Renaissance Historical Fiction",
+    worldWarIAndII: "World War I and II Fiction",
+  },
+  "Biography/Autobiography": {
+    celebrityBiographies: "Celebrity Biographies",
+    politicalBiographies: "Political Biographies",
+    literaryBiographies: "Literary Biographies",
+    memoirs: "Memoirs",
+  },
+  "Self-Help": {
+    personalDevelopment: "Personal Development",
+    motivational: "Motivational",
+    successStories: "Success Stories",
+    mindfulness: "Mindfulness",
+  },
+  "Science and Nature": {
+    physics: "Physics",
+    chemistry: "Chemistry",
+    biology: "Biology",
+    astronomy: "Astronomy",
+    earthSciences: "Earth Sciences",
+  },
+  "Business and Finance": {
+    leadership: "Leadership",
+    entrepreneurship: "Entrepreneurship",
+    personalFinance: "Personal Finance",
+    economics: "Economics",
+  },
+  Travel: {
+    travelGuides: "Travel Guides",
+    adventureTravel: "Adventure Travel",
+    travelMemoirs: "Travel Memoirs",
+  },
+  "Cookbooks and Food": {
+    cuisineSpecificCookbooks: "Cuisine-specific Cookbooks",
+    baking: "Baking",
+    healthyEating: "Healthy Eating",
+    foodMemoirs: "Food Memoirs",
+  },
+  "Graphic Novels and Comics": {
+    superheroComics: "Superhero Comics",
+    graphicMemoirs: "Graphic Memoirs",
+    manga: "Manga",
+    webcomics: "Webcomics",
+  },
+  "Religion and Spirituality": {
+    christianity: "Christianity",
+    islam: "Islam",
+    buddhism: "Buddhism",
+    hinduism: "Hinduism",
+    newAge: "New Age",
+  },
+  Humor: {
+    satire: "Satire",
+    comedy: "Comedy",
+    funnyEssays: "Funny Essays",
+  },
+  "Essays and Short Stories": {
+    literaryEssays: "Literary Essays",
+    shortStoryCollections: "Short Story Collections",
+  },
 };
 
 router.get("/", checkAuthentication, async (req, res) => {
@@ -80,6 +216,7 @@ router.get("/my-transcations", checkMemberAuthentication, async (req, res) => {
     const username = req.session.username;
     const filters = {};
     const { transcationId, transactionType, bookName } = req.query;
+    const booksTitle = await transcationService.arrayOfBooksTitleOfMember(username);
 
     if (transcationId) {
       filters.transcationId = transcationId;
@@ -97,7 +234,7 @@ router.get("/my-transcations", checkMemberAuthentication, async (req, res) => {
 
     const transcations = await Transaction.find(filters);
 
-    res.render("dashboard_member_transcations.ejs", { transcations, filters });
+    res.render("dashboard_member_transcations.ejs", { transcations, filters, booksTitle });
   } catch (error) {
     console.error(error);
     res.send("Internal Server Error");
@@ -126,7 +263,8 @@ router.get("/books", checkAuthentication, async (req, res) => {
     }
 
     const books = await Book.find(filters);
-    res.render("dashboard_admin_books.ejs", { books, filters });
+
+    res.render("dashboard_admin_books.ejs", { books, filters, genres });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -159,6 +297,7 @@ router.get("/members", checkAuthentication, async (req, res) => {
     }
 
     const members = await Member.find(filters);
+
     res.render("dashboard_admin_members.ejs", { members, filters });
   } catch (error) {
     console.error(error);
@@ -191,6 +330,7 @@ router.get("/transcation", checkAuthentication, async (req, res) => {
     }
 
     const transcations = await Transaction.find(filters);
+
     res.render("dashboard_admin_Btranscation.ejs", { members, books, transcations, filters });
   } catch (error) {
     console.error(error);

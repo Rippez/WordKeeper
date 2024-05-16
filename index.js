@@ -61,8 +61,16 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  let error;
-  res.render("login.ejs", { error });
+  if (req.session && req.session.memberId && req.session.role) {
+    if (req.session.role == "admin") {
+      res.redirect("/dashboard");
+    } else {
+      res.redirect("/dashboard/user");
+    }
+  } else {
+    let error;
+    res.render("login.ejs", { error });
+  }
 });
 
 app.get("/contact-us", (req, res) => {

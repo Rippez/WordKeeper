@@ -11,13 +11,13 @@
                 <h6 class="mb-0">Book List</h6>
               </div>
               <div class="col-6 text-end">
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form">Add Book</button>
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#BulkBookModal">Add Multiple Books</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form">New Book</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#BulkBookModal">Multiple New Books</button>
                 <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filter-modal">Filter Books</button>
               </div>
             </div>
           </div>
-          <div class="card-body px-0 pt-0 pb-2">
+          <div class="card-body px-0 pt-0 pb-0">
             <div class="table-responsive p-0">
               <table class="table align-items-center justify-content-center mb-0">
                 <thead>
@@ -118,160 +118,13 @@
                     <div class="col form-group">
                       <label for="genre">Book Genre</label>
                       <select name="genre" class="form-select" id="genre" required>
-                        <!-- Fiction -->
-                        <optgroup label="Fiction">
-                          <option value="generalFiction">General Fiction</option>
-                          <option value="historicalFiction">Historical Fiction</option>
-                          <option value="scienceFiction">Science Fiction</option>
-                          <option value="fantasy">Fantasy</option>
-                          <option value="mysteryThriller">Mystery/Thriller</option>
-                          <option value="horror">Horror</option>
-                          <option value="romance">Romance</option>
-                          <option value="adventure">Adventure</option>
-                        </optgroup>
-                        <!-- Non-Fiction -->
-                        <optgroup label="Non-Fiction">
-                          <option value="biographyAutobiography">Biography/Autobiography</option>
-                          <option value="memoir">Memoir</option>
-                          <option value="trueCrime">True Crime</option>
-                          <option value="selfHelp">Self-Help</option>
-                          <option value="psychology">Psychology</option>
-                          <option value="philosophy">Philosophy</option>
-                          <option value="history">History</option>
-                          <option value="science">Science</option>
-                          <option value="technology">Technology</option>
-                        </optgroup>
-                        <!-- Children's -->
-                        <optgroup label="Children's">
-                          <option value="pictureBooks">Picture Books</option>
-                          <option value="middleGrade">Middle-Grade</option>
-                          <option value="youngAdult">Young Adult (YA)</option>
-                          <option value="childrensFantasy">Children's Fantasy</option>
-                          <option value="childrensMystery">Children's Mystery</option>
-                          <option value="childrensScienceFiction">Children's Science Fiction</option>
-                        </optgroup>
-                        <!-- Poetry -->
-                        <optgroup label="Poetry">
-                          <option value="traditionalPoetry">Traditional Poetry</option>
-                          <option value="modernPoetry">Modern Poetry</option>
-                          <option value="epicPoetry">Epic Poetry</option>
-                          <option value="haiku">Haiku</option>
-                          <option value="sonnets">Sonnets</option>
-                        </optgroup>
-                        <!-- Mystery/Thriller -->
-                        <optgroup label="Mystery/Thriller">
-                          <option value="crimeFiction">Crime Fiction</option>
-                          <option value="detectiveFiction">Detective Fiction</option>
-                          <option value="psychologicalThriller">Psychological Thriller</option>
-                          <option value="legalThriller">Legal Thriller</option>
-                          <option value="spyThriller">Spy Thriller</option>
-                        </optgroup>
-                        <!-- Science Fiction (Sci-Fi) -->
-                        <optgroup label="Science Fiction (Sci-Fi)">
-                          <option value="spaceOpera">Space Opera</option>
-                          <option value="cyberpunk">Cyberpunk</option>
-                          <option value="hardScienceFiction">Hard Science Fiction</option>
-                          <option value="softScienceFiction">Soft Science Fiction</option>
-                          <option value="dystopianFiction">Dystopian Fiction</option>
-                        </optgroup>
-                        <!-- Fantasy -->
-                        <optgroup label="Fantasy">
-                          <option value="highFantasy">High Fantasy</option>
-                          <option value="lowFantasy">Low Fantasy</option>
-                          <option value="urbanFantasy">Urban Fantasy</option>
-                          <option value="magicalRealism">Magical Realism</option>
-                          <option value="paranormalFantasy">Paranormal Fantasy</option>
-                        </optgroup>
-                        <!-- Romance -->
-                        <optgroup label="Romance">
-                          <option value="contemporaryRomance">Contemporary Romance</option>
-                          <option value="historicalRomance">Historical Romance</option>
-                          <option value="regencyRomance">Regency Romance</option>
-                          <option value="paranormalRomance">Paranormal Romance</option>
-                        </optgroup>
-                        <!-- Horror -->
-                        <optgroup label="Horror">
-                          <option value="supernaturalHorror">Supernatural Horror</option>
-                          <option value="psychologicalHorror">Psychological Horror</option>
-                          <option value="gothicHorror">Gothic Horror</option>
-                          <option value="zombieFiction">Zombie Fiction</option>
-                          <option value="vampireFiction">Vampire Fiction</option>
-                        </optgroup>
-                        <!-- Historical Fiction -->
-                        <optgroup label="Historical Fiction">
-                          <option value="ancientHistory">Ancient History</option>
-                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
-                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
-                          <option value="worldWarIAndII">World War I and II Fiction</option>
-                        </optgroup>
-                        <!-- Biography/Autobiography -->
-                        <optgroup label="Biography/Autobiography">
-                          <option value="celebrityBiographies">Celebrity Biographies</option>
-                          <option value="politicalBiographies">Political Biographies</option>
-                          <option value="literaryBiographies">Literary Biographies</option>
-                          <option value="memoirs">Memoirs</option>
-                        </optgroup>
-                        <!-- Self-Help -->
-                        <optgroup label="Self-Help">
-                          <option value="personalDevelopment">Personal Development</option>
-                          <option value="motivational">Motivational</option>
-                          <option value="successStories">Success Stories</option>
-                          <option value="mindfulness">Mindfulness</option>
-                        </optgroup>
-                        <!-- Science and Nature -->
-                        <optgroup label="Science and Nature">
-                          <option value="physics">Physics</option>
-                          <option value="chemistry">Chemistry</option>
-                          <option value="biology">Biology</option>
-                          <option value="astronomy">Astronomy</option>
-                          <option value="earthSciences">Earth Sciences</option>
-                        </optgroup>
-                        <!-- Business and Finance -->
-                        <optgroup label="Business and Finance">
-                          <option value="leadership">Leadership</option>
-                          <option value="entrepreneurship">Entrepreneurship</option>
-                          <option value="personalFinance">Personal Finance</option>
-                          <option value="economics">Economics</option>
-                        </optgroup>
-                        <!-- Travel -->
-                        <optgroup label="Travel">
-                          <option value="travelGuides">Travel Guides</option>
-                          <option value="adventureTravel">Adventure Travel</option>
-                          <option value="travelMemoirs">Travel Memoirs</option>
-                        </optgroup>
-                        <!-- Cookbooks and Food -->
-                        <optgroup label="Cookbooks and Food">
-                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
-                          <option value="baking">Baking</option>
-                          <option value="healthyEating">Healthy Eating</option>
-                          <option value="foodMemoirs">Food Memoirs</option>
-                        </optgroup>
-                        <!-- Graphic Novels and Comics -->
-                        <optgroup label="Graphic Novels and Comics">
-                          <option value="superheroComics">Superhero Comics</option>
-                          <option value="graphicMemoirs">Graphic Memoirs</option>
-                          <option value="manga">Manga</option>
-                          <option value="webcomics">Webcomics</option>
-                        </optgroup>
-                        <!-- Religion and Spirituality -->
-                        <optgroup label="Religion and Spirituality">
-                          <option value="christianity">Christianity</option>
-                          <option value="islam">Islam</option>
-                          <option value="buddhism">Buddhism</option>
-                          <option value="hinduism">Hinduism</option>
-                          <option value="newAge">New Age</option>
-                        </optgroup>
-                        <!-- Humor -->
-                        <optgroup label="Humor">
-                          <option value="satire">Satire</option>
-                          <option value="comedy">Comedy</option>
-                          <option value="funnyEssays">Funny Essays</option>
-                        </optgroup>
-                        <!-- Essays and Short Stories -->
-                        <optgroup label="Essays and Short Stories">
-                          <option value="literaryEssays">Literary Essays</option>
-                          <option value="shortStoryCollections">Short Story Collections</option>
-                        </optgroup>
+                          <% for (const [groupLabel, groupOptions] of Object.entries(genres)) { %>
+                            <optgroup label="<%= groupLabel %>">
+                              <% for (const [value, label] of Object.entries(groupOptions)) { %>
+                                <option value="<%= value %>"><%= label %></option>
+                              <% } %>
+                            </optgroup>
+                          <% } %>                        
                       </select>
                       <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Select Genre</div>
@@ -353,160 +206,13 @@
                     <div class="col form-group">
                       <label for="editGenre">Book Genre</label>
                       <select name="genre" class="form-select" id="editGenre" required>
-                        <!-- Fiction -->
-                        <optgroup label="Fiction">
-                          <option value="generalFiction">General Fiction</option>
-                          <option value="historicalFiction">Historical Fiction</option>
-                          <option value="scienceFiction">Science Fiction</option>
-                          <option value="fantasy">Fantasy</option>
-                          <option value="mysteryThriller">Mystery/Thriller</option>
-                          <option value="horror">Horror</option>
-                          <option value="romance">Romance</option>
-                          <option value="adventure">Adventure</option>
-                        </optgroup>
-                        <!-- Non-Fiction -->
-                        <optgroup label="Non-Fiction">
-                          <option value="biographyAutobiography">Biography/Autobiography</option>
-                          <option value="memoir">Memoir</option>
-                          <option value="trueCrime">True Crime</option>
-                          <option value="selfHelp">Self-Help</option>
-                          <option value="psychology">Psychology</option>
-                          <option value="philosophy">Philosophy</option>
-                          <option value="history">History</option>
-                          <option value="science">Science</option>
-                          <option value="technology">Technology</option>
-                        </optgroup>
-                        <!-- Children's -->
-                        <optgroup label="Children's">
-                          <option value="pictureBooks">Picture Books</option>
-                          <option value="middleGrade">Middle-Grade</option>
-                          <option value="youngAdult">Young Adult (YA)</option>
-                          <option value="childrensFantasy">Children's Fantasy</option>
-                          <option value="childrensMystery">Children's Mystery</option>
-                          <option value="childrensScienceFiction">Children's Science Fiction</option>
-                        </optgroup>
-                        <!-- Poetry -->
-                        <optgroup label="Poetry">
-                          <option value="traditionalPoetry">Traditional Poetry</option>
-                          <option value="modernPoetry">Modern Poetry</option>
-                          <option value="epicPoetry">Epic Poetry</option>
-                          <option value="haiku">Haiku</option>
-                          <option value="sonnets">Sonnets</option>
-                        </optgroup>
-                        <!-- Mystery/Thriller -->
-                        <optgroup label="Mystery/Thriller">
-                          <option value="crimeFiction">Crime Fiction</option>
-                          <option value="detectiveFiction">Detective Fiction</option>
-                          <option value="psychologicalThriller">Psychological Thriller</option>
-                          <option value="legalThriller">Legal Thriller</option>
-                          <option value="spyThriller">Spy Thriller</option>
-                        </optgroup>
-                        <!-- Science Fiction (Sci-Fi) -->
-                        <optgroup label="Science Fiction (Sci-Fi)">
-                          <option value="spaceOpera">Space Opera</option>
-                          <option value="cyberpunk">Cyberpunk</option>
-                          <option value="hardScienceFiction">Hard Science Fiction</option>
-                          <option value="softScienceFiction">Soft Science Fiction</option>
-                          <option value="dystopianFiction">Dystopian Fiction</option>
-                        </optgroup>
-                        <!-- Fantasy -->
-                        <optgroup label="Fantasy">
-                          <option value="highFantasy">High Fantasy</option>
-                          <option value="lowFantasy">Low Fantasy</option>
-                          <option value="urbanFantasy">Urban Fantasy</option>
-                          <option value="magicalRealism">Magical Realism</option>
-                          <option value="paranormalFantasy">Paranormal Fantasy</option>
-                        </optgroup>
-                        <!-- Romance -->
-                        <optgroup label="Romance">
-                          <option value="contemporaryRomance">Contemporary Romance</option>
-                          <option value="historicalRomance">Historical Romance</option>
-                          <option value="regencyRomance">Regency Romance</option>
-                          <option value="paranormalRomance">Paranormal Romance</option>
-                        </optgroup>
-                        <!-- Horror -->
-                        <optgroup label="Horror">
-                          <option value="supernaturalHorror">Supernatural Horror</option>
-                          <option value="psychologicalHorror">Psychological Horror</option>
-                          <option value="gothicHorror">Gothic Horror</option>
-                          <option value="zombieFiction">Zombie Fiction</option>
-                          <option value="vampireFiction">Vampire Fiction</option>
-                        </optgroup>
-                        <!-- Historical Fiction -->
-                        <optgroup label="Historical Fiction">
-                          <option value="ancientHistory">Ancient History</option>
-                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
-                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
-                          <option value="worldWarIAndII">World War I and II Fiction</option>
-                        </optgroup>
-                        <!-- Biography/Autobiography -->
-                        <optgroup label="Biography/Autobiography">
-                          <option value="celebrityBiographies">Celebrity Biographies</option>
-                          <option value="politicalBiographies">Political Biographies</option>
-                          <option value="literaryBiographies">Literary Biographies</option>
-                          <option value="memoirs">Memoirs</option>
-                        </optgroup>
-                        <!-- Self-Help -->
-                        <optgroup label="Self-Help">
-                          <option value="personalDevelopment">Personal Development</option>
-                          <option value="motivational">Motivational</option>
-                          <option value="successStories">Success Stories</option>
-                          <option value="mindfulness">Mindfulness</option>
-                        </optgroup>
-                        <!-- Science and Nature -->
-                        <optgroup label="Science and Nature">
-                          <option value="physics">Physics</option>
-                          <option value="chemistry">Chemistry</option>
-                          <option value="biology">Biology</option>
-                          <option value="astronomy">Astronomy</option>
-                          <option value="earthSciences">Earth Sciences</option>
-                        </optgroup>
-                        <!-- Business and Finance -->
-                        <optgroup label="Business and Finance">
-                          <option value="leadership">Leadership</option>
-                          <option value="entrepreneurship">Entrepreneurship</option>
-                          <option value="personalFinance">Personal Finance</option>
-                          <option value="economics">Economics</option>
-                        </optgroup>
-                        <!-- Travel -->
-                        <optgroup label="Travel">
-                          <option value="travelGuides">Travel Guides</option>
-                          <option value="adventureTravel">Adventure Travel</option>
-                          <option value="travelMemoirs">Travel Memoirs</option>
-                        </optgroup>
-                        <!-- Cookbooks and Food -->
-                        <optgroup label="Cookbooks and Food">
-                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
-                          <option value="baking">Baking</option>
-                          <option value="healthyEating">Healthy Eating</option>
-                          <option value="foodMemoirs">Food Memoirs</option>
-                        </optgroup>
-                        <!-- Graphic Novels and Comics -->
-                        <optgroup label="Graphic Novels and Comics">
-                          <option value="superheroComics">Superhero Comics</option>
-                          <option value="graphicMemoirs">Graphic Memoirs</option>
-                          <option value="manga">Manga</option>
-                          <option value="webcomics">Webcomics</option>
-                        </optgroup>
-                        <!-- Religion and Spirituality -->
-                        <optgroup label="Religion and Spirituality">
-                          <option value="christianity">Christianity</option>
-                          <option value="islam">Islam</option>
-                          <option value="buddhism">Buddhism</option>
-                          <option value="hinduism">Hinduism</option>
-                          <option value="newAge">New Age</option>
-                        </optgroup>
-                        <!-- Humor -->
-                        <optgroup label="Humor">
-                          <option value="satire">Satire</option>
-                          <option value="comedy">Comedy</option>
-                          <option value="funnyEssays">Funny Essays</option>
-                        </optgroup>
-                        <!-- Essays and Short Stories -->
-                        <optgroup label="Essays and Short Stories">
-                          <option value="literaryEssays">Literary Essays</option>
-                          <option value="shortStoryCollections">Short Story Collections</option>
-                        </optgroup>
+                        <% for (const [groupLabel, groupOptions] of Object.entries(genres)) { %>
+                          <optgroup label="<%= groupLabel %>">
+                            <% for (const [value, label] of Object.entries(groupOptions)) { %>
+                              <option value="<%= value %>"><%= label %></option>
+                            <% } %>
+                          </optgroup>
+                        <% } %>                        
                       </select>
                       <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Select Genre</div>
@@ -539,7 +245,7 @@
                     <div class="invalid-feedback">Please Enter Image URL</div>
                   </div>
                   <div class="mb-3">
-                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Edit Book</button>
+                    <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Save Book</button>
                   </div>
                 </form>
               </div>
@@ -621,161 +327,14 @@
                       <label for="genre">Search By Genre</label>
                       <select name="genre" class="form-select" id="genre">
                         <option value="" selected>None</option>
-                        <!-- Fiction -->
-                        <optgroup label="Fiction">
-                          <option value="generalFiction">General Fiction</option>
-                          <option value="historicalFiction">Historical Fiction</option>
-                          <option value="scienceFiction">Science Fiction</option>
-                          <option value="fantasy">Fantasy</option>
-                          <option value="mysteryThriller">Mystery/Thriller</option>
-                          <option value="horror">Horror</option>
-                          <option value="romance">Romance</option>
-                          <option value="adventure">Adventure</option>
-                        </optgroup>
-                        <!-- Non-Fiction -->
-                        <optgroup label="Non-Fiction">
-                          <option value="biographyAutobiography">Biography/Autobiography</option>
-                          <option value="memoir">Memoir</option>
-                          <option value="trueCrime">True Crime</option>
-                          <option value="selfHelp">Self-Help</option>
-                          <option value="psychology">Psychology</option>
-                          <option value="philosophy">Philosophy</option>
-                          <option value="history">History</option>
-                          <option value="science">Science</option>
-                          <option value="technology">Technology</option>
-                        </optgroup>
-                        <!-- Children's -->
-                        <optgroup label="Children's">
-                          <option value="pictureBooks">Picture Books</option>
-                          <option value="middleGrade">Middle-Grade</option>
-                          <option value="youngAdult">Young Adult (YA)</option>
-                          <option value="childrensFantasy">Children's Fantasy</option>
-                          <option value="childrensMystery">Children's Mystery</option>
-                          <option value="childrensScienceFiction">Children's Science Fiction</option>
-                        </optgroup>
-                        <!-- Poetry -->
-                        <optgroup label="Poetry">
-                          <option value="traditionalPoetry">Traditional Poetry</option>
-                          <option value="modernPoetry">Modern Poetry</option>
-                          <option value="epicPoetry">Epic Poetry</option>
-                          <option value="haiku">Haiku</option>
-                          <option value="sonnets">Sonnets</option>
-                        </optgroup>
-                        <!-- Mystery/Thriller -->
-                        <optgroup label="Mystery/Thriller">
-                          <option value="crimeFiction">Crime Fiction</option>
-                          <option value="detectiveFiction">Detective Fiction</option>
-                          <option value="psychologicalThriller">Psychological Thriller</option>
-                          <option value="legalThriller">Legal Thriller</option>
-                          <option value="spyThriller">Spy Thriller</option>
-                        </optgroup>
-                        <!-- Science Fiction (Sci-Fi) -->
-                        <optgroup label="Science Fiction (Sci-Fi)">
-                          <option value="spaceOpera">Space Opera</option>
-                          <option value="cyberpunk">Cyberpunk</option>
-                          <option value="hardScienceFiction">Hard Science Fiction</option>
-                          <option value="softScienceFiction">Soft Science Fiction</option>
-                          <option value="dystopianFiction">Dystopian Fiction</option>
-                        </optgroup>
-                        <!-- Fantasy -->
-                        <optgroup label="Fantasy">
-                          <option value="highFantasy">High Fantasy</option>
-                          <option value="lowFantasy">Low Fantasy</option>
-                          <option value="urbanFantasy">Urban Fantasy</option>
-                          <option value="magicalRealism">Magical Realism</option>
-                          <option value="paranormalFantasy">Paranormal Fantasy</option>
-                        </optgroup>
-                        <!-- Romance -->
-                        <optgroup label="Romance">
-                          <option value="contemporaryRomance">Contemporary Romance</option>
-                          <option value="historicalRomance">Historical Romance</option>
-                          <option value="regencyRomance">Regency Romance</option>
-                          <option value="paranormalRomance">Paranormal Romance</option>
-                        </optgroup>
-                        <!-- Horror -->
-                        <optgroup label="Horror">
-                          <option value="supernaturalHorror">Supernatural Horror</option>
-                          <option value="psychologicalHorror">Psychological Horror</option>
-                          <option value="gothicHorror">Gothic Horror</option>
-                          <option value="zombieFiction">Zombie Fiction</option>
-                          <option value="vampireFiction">Vampire Fiction</option>
-                        </optgroup>
-                        <!-- Historical Fiction -->
-                        <optgroup label="Historical Fiction">
-                          <option value="ancientHistory">Ancient History</option>
-                          <option value="medievalHistoricalFiction">Medieval Historical Fiction</option>
-                          <option value="renaissanceHistoricalFiction">Renaissance Historical Fiction</option>
-                          <option value="worldWarIAndII">World War I and II Fiction</option>
-                        </optgroup>
-                        <!-- Biography/Autobiography -->
-                        <optgroup label="Biography/Autobiography">
-                          <option value="celebrityBiographies">Celebrity Biographies</option>
-                          <option value="politicalBiographies">Political Biographies</option>
-                          <option value="literaryBiographies">Literary Biographies</option>
-                          <option value="memoirs">Memoirs</option>
-                        </optgroup>
-                        <!-- Self-Help -->
-                        <optgroup label="Self-Help">
-                          <option value="personalDevelopment">Personal Development</option>
-                          <option value="motivational">Motivational</option>
-                          <option value="successStories">Success Stories</option>
-                          <option value="mindfulness">Mindfulness</option>
-                        </optgroup>
-                        <!-- Science and Nature -->
-                        <optgroup label="Science and Nature">
-                          <option value="physics">Physics</option>
-                          <option value="chemistry">Chemistry</option>
-                          <option value="biology">Biology</option>
-                          <option value="astronomy">Astronomy</option>
-                          <option value="earthSciences">Earth Sciences</option>
-                        </optgroup>
-                        <!-- Business and Finance -->
-                        <optgroup label="Business and Finance">
-                          <option value="leadership">Leadership</option>
-                          <option value="entrepreneurship">Entrepreneurship</option>
-                          <option value="personalFinance">Personal Finance</option>
-                          <option value="economics">Economics</option>
-                        </optgroup>
-                        <!-- Travel -->
-                        <optgroup label="Travel">
-                          <option value="travelGuides">Travel Guides</option>
-                          <option value="adventureTravel">Adventure Travel</option>
-                          <option value="travelMemoirs">Travel Memoirs</option>
-                        </optgroup>
-                        <!-- Cookbooks and Food -->
-                        <optgroup label="Cookbooks and Food">
-                          <option value="cuisineSpecificCookbooks">Cuisine-specific Cookbooks</option>
-                          <option value="baking">Baking</option>
-                          <option value="healthyEating">Healthy Eating</option>
-                          <option value="foodMemoirs">Food Memoirs</option>
-                        </optgroup>
-                        <!-- Graphic Novels and Comics -->
-                        <optgroup label="Graphic Novels and Comics">
-                          <option value="superheroComics">Superhero Comics</option>
-                          <option value="graphicMemoirs">Graphic Memoirs</option>
-                          <option value="manga">Manga</option>
-                          <option value="webcomics">Webcomics</option>
-                        </optgroup>
-                        <!-- Religion and Spirituality -->
-                        <optgroup label="Religion and Spirituality">
-                          <option value="christianity">Christianity</option>
-                          <option value="islam">Islam</option>
-                          <option value="buddhism">Buddhism</option>
-                          <option value="hinduism">Hinduism</option>
-                          <option value="newAge">New Age</option>
-                        </optgroup>
-                        <!-- Humor -->
-                        <optgroup label="Humor">
-                          <option value="satire">Satire</option>
-                          <option value="comedy">Comedy</option>
-                          <option value="funnyEssays">Funny Essays</option>
-                        </optgroup>
-                        <!-- Essays and Short Stories -->
-                        <optgroup label="Essays and Short Stories">
-                          <option value="literaryEssays">Literary Essays</option>
-                          <option value="shortStoryCollections">Short Story Collections</option>
-                        </optgroup>
-                      </select>
+                        <% for (const [groupLabel, groupOptions] of Object.entries(genres)) { %>
+                          <optgroup label="<%= groupLabel %>">
+                            <% for (const [value, label] of Object.entries(groupOptions)) { %>
+                              <option value="<%= value %>" <%= filters.genre === value ? 'selected' : '' %>><%= label %></option>
+                            <% } %>
+                          </optgroup>
+                        <% } %>
+                      </select>                      
                       <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Select Genre</div>
                     </div>
@@ -818,7 +377,6 @@
 </script>
 <script>
   const editButtons = document.querySelectorAll('.editButton');
-  // const editModal = document.getElementById('BulkBookModal');
   const editModal = new bootstrap.Modal(document.getElementById('editModal'));
 
   editButtons.forEach((editButton) => {
@@ -835,6 +393,13 @@
       document.getElementById('editQuantity').value = bookDetails.quantity;
       document.getElementById('editAvailableQuantity').value = bookDetails.availableQuantity;
       document.getElementById('editImageUrl').value = bookDetails.imageUrl;
+
+      const genreSelect = document.getElementById('editGenre');
+      const genreOption = genreSelect.querySelector(`option[value="${bookDetails.genre}"]`);
+
+      if (genreOption) {
+        genreOption.selected = true;
+      }
 
       editModal.show();
     });

@@ -24,7 +24,7 @@ router.post("/new", async (req, res) => {
     await newTranscation.save();
 
     const member = await Member.find({ username: memberUsername });
-    const transactionDetails = await Transaction.find({transcationId: transcationId});
+    const transactionDetails = await Transaction.find({ transcationId: transcationId });
 
     if (member[0].preferences.bookIssueNotifications === true) {
       const subject = "Your Book Has Been Issued Successfully";
@@ -35,8 +35,8 @@ router.post("/new", async (req, res) => {
 
       Transaction ID: ${transactionDetails[0].transcationId}
       Book Name: ${transactionDetails[0].bookName}
-      Issue Date: ${transactionDetails[0].transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-      Due Date: ${transactionDetails[0].dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+      Issue Date: ${transactionDetails[0].transactionDate.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}
+      Due Date: ${transactionDetails[0].dueDate.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}
       
       Thank you for using our library services.
       
@@ -102,7 +102,7 @@ router.post("/close", async (req, res) => {
     const updatedTransaction = await Transaction.findOneAndUpdate(queryCondition, updatedFields, { new: true, runValidators: true });
 
     const member = await Member.find({ username: memberUsername });
-    const transactionDetails = await Transaction.find({transcationId: transcationId});
+    const transactionDetails = await Transaction.find({ transcationId: transcationId });
 
     if (member[0].preferences.bookReturnNotifications === true) {
       const subject = "Book Return Confirmation";
@@ -113,8 +113,8 @@ router.post("/close", async (req, res) => {
 
       Transaction ID: ${transactionDetails[0].transcationId}
       Book Name: ${transactionDetails[0].bookName}
-      Issue Date: ${transactionDetails[0].transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-      Due Date: ${transactionDetails[0].dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+      Issue Date: ${transactionDetails[0].transactionDate.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}
+      Due Date: ${transactionDetails[0].dueDate.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}
 
       Thank you for returning the book on time.
 
@@ -129,6 +129,41 @@ router.post("/close", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/:id/edit", async (req, res) => {
+  try {
+    let { id } = req.params;
+    const foundTranscation = await Transaction.find({ transcationId: id });
+    res.json(foundTranscation);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Intetrnal Server Error" });
+  }
+});
+
+router.patch("/", async (req, res) => {
+  try {
+    let { transcationId, memberUsername, bookName, dueDate, id } = req.body;
+
+    const updatedFields = {
+      transcationId,
+      memberUsername,
+      bookName,
+      dueDate,
+    };
+
+    const queryCondition = {
+      _id: id,
+    };
+
+    await Transaction.findByIdAndUpdate(queryCondition, updatedFields, { new: true, runValidators: true });
+
+    res.redirect("/dashboard/transcation");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Intetrnal Server Error" });
   }
 });
 

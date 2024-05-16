@@ -12,7 +12,7 @@
                 <h6 class="mb-0">Member List</h6>
               </div>
               <div class="col-6 text-end">
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form">Add Member</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form">New Member</button>
                 <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filterModal">Filter Member</button>
               </div>
             </div>
@@ -211,7 +211,6 @@
     </div>
   </div>
 
-
   <div class="modal fade" id="editMemberModal" tabindex="-1" role="dialog" aria-labelledby="editMemberModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
       <div class="modal-content">
@@ -247,7 +246,7 @@
                   <div class="col form-group">
                     <label for="editRole">Role</label>
                     <select name="role" id="editRole" class="form-select" required>
-                      <option value="member" selected>Member</option>
+                      <option value="member">Member</option>
                       <option value="admin">Admin</option>
                     </select>
                     <div class="valid-feedback">Looks good!</div>
@@ -263,7 +262,7 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Edit Member</button>
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Save Member</button>
                 </div>
               </form>
             </div>
@@ -301,6 +300,13 @@
       document.getElementById('editName').value = memberDetails.name;
       document.getElementById('editMail').value = memberDetails.mail;
       document.getElementById('editMobileNumber').value = memberDetails.mobileNumber;
+
+      const roleSelect = document.getElementById('editRole');
+      const roleOption = roleSelect.querySelector(`option[value="${memberDetails.role}"]`);
+
+      if (roleOption) {
+        roleOption.selected = true;
+      }
 
       editModal.show();
     });

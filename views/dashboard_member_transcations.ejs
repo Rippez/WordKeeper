@@ -125,6 +125,9 @@
                     <label for="bookName">Filter By Book</label>
                     <select name="bookName" class="form-select" id="bookName">
                       <option value="" selected>None</option>
+                      <% for (const bookTitle of booksTitle) { %>
+                        <option value="<%= bookTitle %>" <%= filters.bookName === bookTitle ? 'selected' : ''  %>><%= bookTitle %></option>
+                      <% } %>
                     </select>
                   </div>
                 </div>
