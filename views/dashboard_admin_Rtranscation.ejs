@@ -27,49 +27,85 @@
       </div>
 
       <div class="col-12">
-        <div class="card">
-          <div class="card-header pb-0 px-3">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
             <div class="row">
               <div class="align-items-center d-flex col-6">
-                <h6 class="mb-0">Transcation Information</h6>
+                <h6 class="mb-0">Transcation List</h6>
               </div>
               <div class="col-6 text-end">
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#filter-modal">Filter Transcations</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-dark mb-3" data-bs-toggle="modal" data-bs-target="#filter-modal">Filter Transcations</button>
               </div>
             </div>
           </div>
-          <div class="card-body pt-4 p-3">
-            <ul class="list-group">
-              <% for (let transcation of transcations) { %>
-              <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                <div class="d-flex flex-column">
-                  <h6 class="mb-3 text-sm">Transcation ID : <%= transcation.transcationId %></h6>
-                  <span class="text-xs">Username: <span class="text-dark font-weight-bold ms-sm-2 ps-4"> <%= transcation.memberUsername %> </span></span>
-                  <span class="text-xs">type: <span class="text-dark font-weight-bold ms-sm-2 ps-5"> <%= transcation.transactionType %> </span></span>
-                  <span class="text-xs">Book Name: <span class="text-dark ms-sm-2 font-weight-bold ps-3"> <%= transcation.bookName %> </span></span>
-                  <span class="text-xs">Borrowed Date: <span class="text-dark ms-sm-2 font-weight-bold"> <%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
-                  <span class="text-xs">Due Date: <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
-                  <span class="text-xs">
-                    Return Date: <% if (transcation.returnDate) { %>
-                    <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.returnDate?.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
-                    <% } else { %>
-                    <!-- Display nothing when returnDate is null or undefined -->
-                    <% } %>
-                  </span>
-                </div>
-                <div class="ms-auto text-end">
-                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="/transcation/delete/<%= transcation._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                  <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                </div>
-              </li>
-              <% } %>
-            </ul>
+          <div class="card-body px-0 pt-0 pb-0">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7">TID & Username</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Book</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Issue & Due Dates</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let transcation of transcations) { %>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm"> <%= transcation.transcationId %> </h6>
+                          <p class="text-xs text-secondary mb-0"> <%= transcation.memberUsername %> </p>
+                        </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0"><%= transcation.bookName %></p>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0"><%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
+                      <p class="text-xs text-secondary mb-0"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </p>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="btn-group align-middle text-center dropstart">
+                        <button class="btn btn-link text-secondary mb-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-ellipsis-v text-xs"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-transaction-id="<%= transcation._id %>" type="button">Delete</button>
+                          </li>
+                          <li>
+                            <button class="dropdown-item editButton" type="button" data-transcation-id="<%= transcation.transcationId %>">Edit</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       
     </div>
     <%- include('includes/footer_admin.ejs') %>
+  </div>
+
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body align-items-center text-center text-md">
+          Are you sure you want to delete this transaction?
+          <div class="mt-3">
+            <button type="button" class="btn btn-sm bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+            <a href="#" class="btn btn-sm bg-gradient-danger" id="deleteTransactionBtn">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="modal fade" id="editTranscationModal" tabindex="-1" role="dialog" aria-labelledby="editTranscationModal" aria-hidden="true">
@@ -143,12 +179,71 @@
                 <div class="mb-3 row">
                   <div class="col form-group">
                     <label for="memberUsername">Search By Username</label>
-                    <input type="text" name="memberUsername" class="form-control" value="<%= filters.memberUsername || '' %>" placeholder="Enter Username"/>
+                    <input list="username-list" name="memberUsername" class="form-control" value="<%= filters.memberUsername || '' %>" placeholder="Enter Username"/>
+                    <datalist id="username-list">
+                      <% for (const transaction of transcations) { %>
+                        <option value="<%= transaction.memberUsername %>">
+                      <% } %>
+                    </datalist>
                   </div>
                 </div>
                 <div class="mb-3">
                   <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Filter Transcations</button>
                   <a href="/dashboard/return-transcation" class="btn bg-gradient-danger btn-sm">Clear Filter</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editTranscationModal2" tabindex="-1" role="dialog" aria-labelledby="editTranscationModal2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-info text-gradient">Edit Transcation</h3>
+            </div>
+            <div class="card-body">
+              <form action="/transcation?_method=PATCH" method="post" role="form">
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editTranscationID">Transcation ID</label>
+                    <input type="text" name="transcationId" id="editTranscationId" class="form-control" placeholder="Transcation ID" required readonly>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editUsername">Username</label>
+                    <input type="hidden" name="id" id="editId">
+                    <input type="text" name="memberUsername" class="form-control" placeholder="Username" id="editUsername" required />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter Username</div>
+                  </div>
+                  <div class="col form-group">
+                    <label for="editDueDate">Due Date</label>
+                    <input type="date" name="dueDate" class="form-control" placeholder="Due Date" id="editDueDate" required />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Date</div>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col form-group">
+                    <label for="editBook">Book Name</label>
+                    <select name="bookName" id="editBook" class="form-control" required>
+                      <% for (const book of books) { %> <% if (book.availableQuantity > 0) { %>
+                        <option value="<%= book.title %>"><%= book.title %></option>
+                        <% } %> <% } %>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Select Book</div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-sm bg-gradient-info" onclick="validateForm(event)">Save Transcation</button>
                 </div>
               </form>
             </div>
@@ -205,5 +300,42 @@
         editModal.show();
       }
     }
+  });
+</script>
+<script>
+  $('#confirmModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var transactionId = button.data('transaction-id'); // Extract info from data-* attributes
+      var deleteUrl = '/transcation/delete/' + transactionId; // Construct the delete URL
+      var modal = $(this);
+      modal.find('#deleteTransactionBtn').attr('href', deleteUrl); // Set the href attribute of the "Delete" button
+  });
+</script>
+<script>
+  const editButtons = document.querySelectorAll('.editButton');
+  const editModal2 = new bootstrap.Modal(document.getElementById('editTranscationModal2'));
+
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener('click', async () => {
+      transactionId = editButton.dataset.transcationId; 
+      const response = await fetch(`/transcation/${transactionId}/edit`);
+      const transcationDetails = await response.json();
+
+      console.log(transcationDetails)
+
+      document.getElementById('editId').value = transcationDetails[0]._id;
+      document.getElementById('editTranscationId').value = transcationDetails[0].transcationId;
+      document.getElementById('editUsername').value = transcationDetails[0].memberUsername;
+      document.getElementById("editDueDate").defaultValue = transcationDetails[0].dueDate.slice(0,10);
+
+      const bookSelect = document.getElementById('editBook');
+      const bookOption = bookSelect.querySelector(`option[value="${transcationDetails[0].bookName}"]`);
+
+      if (bookOption) {
+        bookOption.selected = true;
+      }
+
+      editModal2.show();
+    });
   });
 </script>

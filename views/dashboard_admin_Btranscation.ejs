@@ -5,54 +5,89 @@
   <div class="container-fluid py-4">
     <div class="row">
       <div class="col-12">
-        <div class="card">
-          <div class="card-header pb-0 px-3">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
             <div class="row">
               <div class="align-items-center d-flex col-6">
-                <h6 class="mb-0">Transcation Information</h6>
+                <h6 class="mb-0">Transcation List</h6>
               </div>
               <div class="col-6 text-end">
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#new-modal">New Transcation</button>
-                <button type="button" class="btn btn-sm btn-block btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#find-modal">Filter Transcation</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-dark mb-3" data-bs-toggle="modal" data-bs-target="#new-modal">New Transcation</button>
+                <button type="button" class="btn btn-sm btn-block btn-outline-dark mb-3" data-bs-toggle="modal" data-bs-target="#find-modal">Filter Transcation</button>
               </div>
             </div>
           </div>
-          <div class="card-body pt-4 p-3">
-            <ul class="list-group">
-              <% for (let transcation of transcations) { %>
-              <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                <div class="d-flex flex-column">
-                  <h6 class="mb-3 text-sm">
-                    Transcation ID : <%= transcation.transcationId %> <% if (transcation.returnDate) { %> <% if (transcation.returnDate > transcation.dueDate) { %>
-                    <span class="badge bg-gradient-info">Returned (Overdue)</span>
-                    <% } else { %>
-                    <span class="badge bg-gradient-success">Returned</span>
-                    <% } %> <% } else { %> <% if (new Date() > transcation.dueDate) { %>
-                    <span class="badge bg-gradient-danger">Overdue</span>
-                    <% } else { %>
-                    <span class="badge bg-gradient-warning">Due Soon</span>
-                    <% } %> <% } %>
-                  </h6>
-                  <span class="text-xs">Username: <span class="text-dark font-weight-bold ms-sm-2 ps-4"> <%= transcation.memberUsername %> </span></span>
-                  <span class="text-xs">type: <span class="text-dark font-weight-bold ms-sm-2 ps-5"> <%= transcation.transactionType %> </span></span>
-                  <span class="text-xs">Book Name: <span class="text-dark ms-sm-2 font-weight-bold ps-3"> <%= transcation.bookName %> </span></span>
-                  <span class="text-xs">Borrowed Date: <span class="text-dark ms-sm-2 font-weight-bold"> <%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
-                  <span class="text-xs">Due Date: <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span></span>
-                  <span class="text-xs">
-                    Return Date: <% if (transcation.returnDate) { %>
-                    <span class="text-dark ms-sm-2 font-weight-bold ps-4"> <%= transcation.returnDate?.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </span>
-                    <% } else { %>
-                    <!-- Display nothing when returnDate is null or undefined -->
-                    <% } %>
-                  </span>
-                </div>
-                <div class="ms-auto text-end">
-                  <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="#confirmModal" data-transaction-id="<%= transcation._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                  <a class="btn btn-link text-dark px-3 mb-0 editButton"  data-transcation-id="<%= transcation.transcationId %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                </div>
-              </li>
-              <% } %>
-            </ul>
+          <div class="card-body px-0 pt-0 pb-0">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7">TID & Username</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Book & Type</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-leftopacity-7 ps-2 ">Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Issue & Due Dates</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">Return Date</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let transcation of transcations) { %>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm"> <%= transcation.transcationId %> </h6>
+                          <p class="text-xs text-secondary mb-0"> <%= transcation.memberUsername %> </p>
+                        </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0"><%= transcation.transactionType %></p>
+                      <p class="text-xs text-secondary mb-0"><%= transcation.bookName %></p>
+                    </td>
+                    <td class="text-left">
+                      <% if (transcation.returnDate) { %> <% if (transcation.returnDate > transcation.dueDate) { %>
+                        <span class="badge bg-gradient-info">Returned</span>
+                        <% } else { %>
+                        <span class="badge bg-gradient-success">Returned</span>
+                        <% } %> <% } else { %> <% if (new Date() > transcation.dueDate) { %>
+                        <span class="badge bg-gradient-danger">Overdue</span>
+                        <% } else { %>
+                        <span class="badge bg-gradient-warning">Due Soon</span>
+                        <% } %> <% } %>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0"><%= transcation.transactionDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
+                      <p class="text-xs text-secondary mb-0"> <%= transcation.dueDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %> </p>
+                    </td>
+                    <td>
+                      <span class="text-secondary text-xs font-weight-bold">
+                        <% if (transcation.returnDate) { %>
+                          <%= transcation.returnDate?.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                        <% } else { %>
+                          -
+                        <% } %>
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="btn-group align-middle text-center dropstart">
+                        <button class="btn btn-link text-secondary mb-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-ellipsis-v text-xs"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-transaction-id="<%= transcation._id %>" type="button">Delete</button>
+                          </li>
+                          <li>
+                            <button class="dropdown-item editButton" type="button" data-transcation-id="<%= transcation.transcationId %>">Edit</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -87,11 +122,7 @@
                 <div class="mb-3 row">
                   <div class="col form-group">
                     <label for="memberUsername">Username</label>
-                    <select name="memberUsername" class="form-select" id="memberUsername" required>
-                      <!-- <option value="Select username">Select Username</option> -->
-                      <% for (const member of members) { %>
-                      <option value="<%= member.username %>"><%= member.username %></option>
-                      <% } %>
+                    <input list="membersList" name="memberUsername" class="form-control" id="memberUsername" required>
                     </select>
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Select Username</div>

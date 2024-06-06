@@ -350,8 +350,10 @@ router.get("/return-transcation", checkAuthentication, async (req, res) => {
     filters.transactionType = "Borrow";
 
     const transcations = await Transaction.find(filters);
+    const members = await Member.find();
+    const books = await Book.find();
 
-    res.render("dashboard_admin_Rtranscation.ejs", { transcations, filters });
+    res.render("dashboard_admin_Rtranscation.ejs", { transcations, filters, members, books });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

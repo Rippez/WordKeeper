@@ -304,14 +304,24 @@
                 <form action="/dashboard/books" method="get" role="form" class="needs-validation" novalidate>
                   <div class="mb-3 form-group">
                     <label for="title">Search By Title</label>
-                    <input type="text" name="title" class="form-control" placeholder="Book Title" value="<%= filters.title || '' %>" />
+                    <input list="book-title-list" name="title" class="form-control" placeholder="Book Title" value="<%= filters.title || '' %>" />
+                    <datalist id="book-title-list">
+                      <% for (const book of books) { %>
+                        <option value="<%= book.title %>">
+                      <% } %>
+                    </datalist>
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Enter Title.</div>
                   </div>
                   <div class="mb-3 row">
                     <div class="col form-group">
                       <label for="author">Search By Author</label>
-                      <input type="text" name="author" class="form-control" placeholder="Book Author" value="<%= filters.author || '' %>"/>
+                      <input list="author-list" name="author" class="form-control" placeholder="Book Author" value="<%= filters.author || '' %>"/>
+                      <datalist id="author-list">
+                        <% for (const book of books) { %>
+                          <option value="<%= book.author %>">
+                        <% } %>
+                      </datalist>
                       <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please Enter Author</div>
                     </div>
