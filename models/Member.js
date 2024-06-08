@@ -59,7 +59,6 @@ const memberSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: function (v) {
-        // Ensure the mobile number has exactly 10 digits
         return /^\d{10}$/.test(v);
       },
       message: "Mobile number must be 10 digits long",
