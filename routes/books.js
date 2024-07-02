@@ -87,7 +87,7 @@ router.get("/", async (req, res) => {
 
   const books = await Book.find(filters);
 
-  res.render("books.ejs", { books, genres, authors,filters });
+  res.render("./other/books.ejs", { books, genres, authors, filters });
 });
 
 router.post("/upload", upload.single("excelFile"), async (req, res) => {
@@ -133,7 +133,7 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const bookDetail = await Book.findById(id);
 
-    res.render("book_Details.ejs", { bookDetail });
+    res.render("./other/book_Details.ejs", { bookDetail });
   } catch (error) {
     console.error(error);
     res.send("Internal Server Error");

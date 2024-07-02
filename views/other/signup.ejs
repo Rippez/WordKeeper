@@ -1,0 +1,104 @@
+<%- layout("layouts/other_boilerplate.ejs") %>
+<main class="main-content  mt-0">
+    <section class="min-vh-100 mb-8">
+      <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('../assets/img/curved-images/curved14.jpg');">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 text-center mx-auto">
+              <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+              <p class="text-lead text-white">Journey Throught Words, Without Leaving Your Seat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row mt-lg-n10 mt-md-n11 mt-n10">
+          <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+            <div class="card z-index-0">
+              <div class="card-header text-center pt-4">
+                <h5>Register Now</h5>
+                <% if (error) { %>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-text"><strong>Error :</strong> <%= error %></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <% } %>
+              <div class="card-body">
+                <form role="form text-left" action="/members/signup" method="post">
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Name" aria-describedby="email-addon" name="username">
+                  </div>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Full Name" aria-label="Name" aria-describedby="email-addon" name="name">
+                  </div>
+                  <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="mail">
+                  </div>
+                  <div class="mb-3">
+                    <input type="number" name="mobileNumber" id="mobileNumber" placeholder="Mobile Number" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Set Password" aria-label="Password" aria-describedby="password-addon" name="password" oninput="checkPasswordStrength(this.value)">
+                  </div>
+                  <div class="mb-3">
+                    <div class="progress" role="progressbar" >
+                      <div class="progress-bar bg-dark" style="width: 0%;" id="passwordStrengthBar"></div>
+                    </div>
+                  </div>
+                  <div class="form-check form-check-info text-left">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required>
+                    <label class="form-check-label" for="flexCheckDefault">
+                      I agree the <a href="/terms-condition" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                    </label>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Register</button>
+                  </div>
+                  <p class="text-sm mt-3 mb-0">Already have an account? <a href="/login" class="text-dark font-weight-bolder">Sign in</a></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</main>
+<script>
+  function checkPasswordStrength(password) {
+    // Define criteria for password strength
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChars = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password);
+
+    // Calculate overall strength based on criteria
+    const strength =
+      (password.length >= minLength ? 1 : 0) +
+      (hasUpperCase ? 1 : 0) +
+      (hasLowerCase ? 1 : 0) +
+      (hasNumbers ? 1 : 0) +
+      (hasSpecialChars ? 1 : 0);
+
+    const strengthBar = document.getElementById('passwordStrengthBar');
+
+    // Display password strength
+    switch (strength) {
+    case 0:
+      strengthBar.style.width = '25%';
+      break;
+    case 1:
+      strengthBar.style.width = '50%';
+      break;
+    case 2:
+      strengthBar.style.width = '75%';
+      break;
+    default:
+      strengthBar.style.width = '100%';
+  }
+}
+</script>

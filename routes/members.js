@@ -939,7 +939,7 @@ router.post("/login", async (req, res) => {
         return res.redirect(`/dashboard/user?username=${username}`);
       }
     } else {
-      return res.render("login.ejs", { error: "Invalid username or password" });
+      return res.render("./other/login.ejs", { error: "Invalid username or password" });
     }
   } catch (error) {
     console.error(error);
@@ -1476,7 +1476,7 @@ router.post("/preferences", async (req, res) => {
 
 router.get("/recover-password", async (req, res) => {
   try {
-    res.render("recover_password.ejs");
+    res.render("./other/recover_password.ejs");
   } catch (error) {
     console.log(error);
     res.send("Internal Server Error");
@@ -1494,7 +1494,7 @@ router.post("/recover-password", async (req, res) => {
     const recipient = `${email}`;
     await sendMail(subject, text, recipient);
 
-    res.render("otp.ejs", { error: "" });
+    res.render("./other/otp.ejs", { error: "" });
   } catch (error) {
     console.log(error);
     res.send("Internal Server Error");
@@ -1510,10 +1510,10 @@ router.post("/check-otp", async (req, res) => {
 
     if (storedOTP.otp == otp) {
       email = storedOTP.email;
-      res.render("reset_password.ejs", { email });
+      res.render("./other/reset_password.ejs", { email });
       await OTP.findOneAndDelete({ otp });
     } else {
-      res.render("otp.ejs", { error: "Invalid OTP" });
+      res.render("./other/otp.ejs", { error: "Invalid OTP" });
     }
   } catch (error) {
     console.log(error);

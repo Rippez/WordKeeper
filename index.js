@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const cloudinary = require("cloudinary").v2;
+const ejsMate = require("ejs-mate");
 require("dotenv").config();
 
 const port = process.env.port || 8080;
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.engine("ejs", ejsMate);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(express.json());
@@ -57,7 +59,7 @@ app.get("/", (req, res) => {
 
 app.get("/signup", (req, res) => {
   let error;
-  res.render("signup.ejs", { error });
+  res.render("./other/signup.ejs", { error });
 });
 
 app.get("/login", (req, res) => {
@@ -69,16 +71,12 @@ app.get("/login", (req, res) => {
     }
   } else {
     let error;
-    res.render("login.ejs", { error });
+    res.render("./other/login.ejs", { error });
   }
 });
 
 app.get("/contact-us", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "contact-us.html"));
-});
-
-app.get("/otp", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "chat.html"));
 });
 
 app.get("*", (req, res) => {

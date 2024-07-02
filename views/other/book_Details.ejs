@@ -1,0 +1,80 @@
+<%- layout("/layouts/other_boilerplate.ejs") %>
+    
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+      <div class="container-fluid py-7">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <div class="card">
+              <div class="card-header pb-0 px-3">
+                <div class="row">
+                  <div class="align-items-center d-flex col-6">
+                    <h6 class="mb-0">Book Information</h6>
+                  </div>
+                  <div class="col-6 text-end">
+                    <a class="btn btn-sm btn-block btn-outline-dark mb-3" href="/books">Go To Library</a>
+                  </div>
+                </div>
+              </div>
+              <div class="row no-gutters card-body">
+                <div class="col-md-4">
+                  <img src="<%= bookDetail.imageUrl %>" class="card-img book-image mt-3" alt="Book Image" />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h2 class="card-title mb-3"><%= bookDetail.title %></h2>
+                    <hr class="border border-secondary border-2 border-radius-md" />
+                    <table>
+                      <tr>
+                        <td><strong>Author : </strong></td>
+                        <td><p class="card-text"><%= bookDetail.author %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Genre : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.genre %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>ISBN : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.ISBN %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Published : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.publicationYear.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Quantity : </strong></td>
+                        <td class="ps-2"><p class="card-text"><%= bookDetail.availableQuantity %> / <%= bookDetail.quantity %></p></td>
+                        <td><hr class="border border-3"></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Availability : </strong></td>
+                        <td class="ps-2">
+                          <% if (bookDetail.availableQuantity == 0) { %>
+                          <span class="text-danger text-sm font-weight-bolder">Not Avaliable</span>
+                          <td><hr class="border border-3"></td>
+                          <% } else { %>
+                          <span class="text-success text-sm font-weight-bolder">Avaliable</span>
+                          <td><hr class="border border-3"></td>
+                          <% } %>
+                        </td>
+                      </tr>
+                    </table>
+                    <table>
+                        <tr>
+                          <td> <a class="btn btn-sm btn-block bg-gradient-info mb-3 mt-3" href="/books">Read Online</a> </td>
+                          <td class="ps-2"> <a class="btn btn-sm btn-block bg-gradient-info mb-3 mt-3" href="/books">Read Later</a> </td>
+                        </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+
