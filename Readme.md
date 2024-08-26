@@ -63,7 +63,7 @@
 - Enjoy a seamless library management experience with enhanced security features.
 
 ## Version History
-Please refer to our [Notion page](https://jenil-desai.notion.site/Version-Releases-Wanderlust-c373e18729c844dcae64495edb58f865?pvs=4) for the detailed version history.
+Please refer to our [Notion page](https://jenil-desai.notion.site/Version-Releases-Word-Keeper-667593d36ace40b78ea0b9f061ec3eb9?pvs=4) for the detailed version history.
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request.
