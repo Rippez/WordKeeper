@@ -182,10 +182,10 @@ router.get("/", checkAuthentication, async (req, res) => {
     const totalBooksMonth = await dashboardService.getTotalBooksPerMonth();
     const totalTransactionsMonth = await dashboardService.getTotalTranscationPerMonth();
 
-    const randomQuote = await getRandomQuote();
-    const randomRiddle = await getRandomRiddle();
+    // const randomQuote = await getRandomQuote();
+    // const randomRiddle = await getRandomRiddle();
 
-    res.render("dashboard_admin.ejs", { username, totalMembers, totalBooks, totalTransactions, newBooksToday, newMembersToday, newTransactionsToday, randomQuote, randomRiddle, totalMembersMonth, totalBooksMonth, totalTransactionsMonth });
+    res.render("dashboard_admin.ejs", { username, totalMembers, totalBooks, totalTransactions, newBooksToday, newMembersToday, newTransactionsToday, totalMembersMonth, totalBooksMonth, totalTransactionsMonth });
   } catch (error) {
     console.error(error);
     res.send("Internal Server Error");
